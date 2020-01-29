@@ -25,7 +25,7 @@ numberOfNodes = 0
 jobs = 1
 nameList = []
 
-baseContainerNameMin = 'galioy/multichain'
+baseContainerNameMin = 'myminimalbox'
 
 pidsDirectory = "./var/pid/"
 logsDirectory = "./var/log/"
@@ -165,8 +165,10 @@ def create():
     # check_return_code(r_code, "Building regular container %s" % baseContainerName0)
 
     # Don't think we need to rebuild container everytime right now.
-    # r_code = subprocess.call("docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
-    # check_return_code(r_code, "Building minimal container %s" % baseContainerNameMin)
+    r_code = subprocess.call(
+        "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
+    check_return_code(r_code, "Building minimal container %s" %
+                      baseContainerNameMin)
 
     r_code = subprocess.call(
         "cd ns3 && bash update.sh tap-wifi-virtual-machine.cc", shell=True)
@@ -304,10 +306,10 @@ def ns3():
           str(total_emu_time))
 
     tmp = 'cd /home/ubuntu/ns-3-allinone/ns-3-dev && '
-    tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu"'
-    # tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
-    ns3_cmd = tmp.format(jobs, numberOfNodesStr, total_emu_time)
-    #  , scenarioSize, nodeSpeed, nodePause)
+    tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
+    tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
+    ns3_cmd = tmp.format(jobs, numberOfNodesStr,
+                         total_emu_time, scenarioSize, nodeSpeed, nodePause)
 
     print(ns3_cmd)
     proc1 = subprocess.Popen(ns3_cmd, shell=True)
@@ -416,10 +418,10 @@ def write_conf(target, nodes, timeout, root, port, filename):
 def destroy():
     print("Destroying ...")
 
-    # print("DESTROYING ALL CONTAINERS")
-    # r_code = subprocess.call(
-    #     "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
-    # check_return_code_chill(r_code, "Destroying ALL containers")
+    print("DESTROYING ALL CONTAINERS")
+    r_code = subprocess.call(
+        "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
+    check_return_code_chill(r_code, "Destroying ALL containers")
 
     for x in range(0, numberOfNodes):
 
