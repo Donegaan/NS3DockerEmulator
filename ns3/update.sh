@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cp $1 $BAKE_HOME/source/ns-3.26/scratch/tap-vm.cc
+cp $1 /home/ubuntu/ns-3-allinone/ns-3-dev/scratch/tap-vm.cc

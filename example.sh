@@ -9,7 +9,7 @@ SIZE=300 # Size of the network, 300m x 300m
 SPEED=5 # Speed in m/s
 PAUSE=0 # Pause time of the nodes in seconds
 
-export NS3_HOME=/home/ec2-user/ns-3-allinone/ns-3-dev
+export NS3_HOME=/home/ubuntu/ns-3-allinone/ns-3-dev
 
 # We create everything
 python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} create
