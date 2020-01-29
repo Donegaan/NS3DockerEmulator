@@ -168,9 +168,9 @@ def create():
     # r_code = subprocess.call("docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
     # check_return_code(r_code, "Building minimal container %s" % baseContainerNameMin)
 
-  r_code = subprocess.call(
-       "cd ns3 && bash update.sh tap-wifi-virtual-machine.cc", shell=True)
-   if r_code != 0:
+    r_code = subprocess.call(
+        "cd ns3 && bash update.sh tap-wifi-virtual-machine.cc", shell=True)
+    if r_code != 0:
         print("Error copying latest ns3 file")
     else:
         print("NS3 up to date!")
@@ -304,10 +304,10 @@ def ns3():
           str(total_emu_time))
 
     tmp = 'cd /home/ubuntu/ns-3-allinone/ns-3-dev && '
-    tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
+    tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu"'
     # tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
     ns3_cmd = tmp.format(jobs, numberOfNodesStr, total_emu_time)
-                    #  , scenarioSize, nodeSpeed, nodePause)
+    #  , scenarioSize, nodeSpeed, nodePause)
 
     print(ns3_cmd)
     proc1 = subprocess.Popen(ns3_cmd, shell=True)

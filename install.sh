@@ -11,7 +11,7 @@ cd ns-3-dev
 
 echo -e "\n\n Recompoling NS3 in optimized mode  ... \n"
 ./waf distclean
-./waf -d optimized configure --disable-examples --disable-tests --disable-python --enable-static --no-task-lines
+./waf -d optimized configure --disable-examples --disable-tests --disable-python --enable-static --no-task-lines --enable-sudo
 ./waf
 
 echo -e "\n\n Running first Ns3 example  ... \n"
