@@ -176,9 +176,9 @@ def create():
         print("Error copying latest ns3 file")
     else:
         print("NS3 up to date!")
-        print("Go to NS3 folder, probably cd /home/ubuntu/ns-3-allinone/ns-3-dev")
+        print("Go to NS3 folder, probably cd ~/ns-3-allinone/ns-3-dev")
 
-    r_code = subprocess.call("cd /home/ubuntu/ns-3-allinone/ns-3-dev && ./waf build -j {} -d optimized --disable-examples".format(jobs),
+    r_code = subprocess.call("cd ~/ns-3-allinone/ns-3-dev && ./waf build -j {} -d optimized --disable-examples".format(jobs),
                              shell=True)
     if r_code == 0:
         print("NS3 BUILD WIN!")
@@ -305,7 +305,7 @@ def ns3():
     print('About to start NS3 RUN  with total emulation time of %s' %
           str(total_emu_time))
 
-    tmp = 'cd /home/ubuntu/ns-3-allinone/ns-3-dev && '
+    tmp = 'cd ~/ns-3-allinone/ns-3-dev && '
     tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
     tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
     ns3_cmd = tmp.format(jobs, numberOfNodesStr,
