@@ -21,12 +21,12 @@ NAME=$1
 
 sudo brctl addbr br-$NAME
 
-tunctl -t tap-$NAME
+sudo tunctl -t tap-$NAME
 
-ifconfig tap-$NAME 0.0.0.0 promisc up
+sudo ifconfig tap-$NAME 0.0.0.0 promisc up
 
 sudo brctl addif br-$NAME tap-$NAME
-ifconfig br-$NAME up
+sudo ifconfig br-$NAME up
 
 # pushd /proc/sys/net/bridge
 # for f in bridge-nf-*; do echo 0 > $f; done

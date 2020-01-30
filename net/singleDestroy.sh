@@ -11,12 +11,12 @@ fi
 
 NAME=$1
 
-ifconfig br-$NAME down
+sudo ifconfig br-$NAME down
 
 sudo brctl delif br-$NAME tap-$NAME
 
 sudo brctl delbr br-$NAME
 
-ifconfig tap-$NAME down
+sudo ifconfig tap-$NAME down
 
-tunctl -d tap-$NAME
+sudo tunctl -d tap-$NAME
