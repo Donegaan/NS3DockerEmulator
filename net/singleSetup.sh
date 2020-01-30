@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This file creates a bridge with the tool brctl (ethernet bridge administration)
+# This file creates a bridge with the tool sudo brctl (ethernet bridge administration)
 # and a TAP interface with the tool tunctl (create and manage persistent TUN/TAP interfaces)
 # then the tap interface is configured in promisc mode, added to the bridge
 # and started.
@@ -19,13 +19,13 @@ fi
 
 NAME=$1
 
-brctl addbr br-$NAME
+sudo brctl addbr br-$NAME
 
 tunctl -t tap-$NAME
 
 ifconfig tap-$NAME 0.0.0.0 promisc up
 
-brctl addif br-$NAME tap-$NAME
+sudo brctl addif br-$NAME tap-$NAME
 ifconfig br-$NAME up
 
 # pushd /proc/sys/net/bridge
@@ -33,5 +33,5 @@ ifconfig br-$NAME up
 # popd
 
 # References
-# brctl -> http://linuxcommand.org/man_pages/brctl8.html
+# sudo brctl -> http://linuxcommand.org/man_pages/brctl8.html
 # tunctl -> http://linux.die.net/man/8/tunctl
