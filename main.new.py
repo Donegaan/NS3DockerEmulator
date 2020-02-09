@@ -52,23 +52,32 @@ def main():
     parser.add_argument("operationStr", action="store",
                         help="The name of the operation to perform, options: full, create, destroy")
 
-    parser.add_argument("-n", "--number", action="store", help="The number of nodes to simulate")
+    parser.add_argument("-n", "--number", action="store",
+                        help="The number of nodes to simulate")
 
-    parser.add_argument("-t", "--time", action="store", help="The time in seconds of NS3 simulation")
+    parser.add_argument("-t", "--time", action="store",
+                        help="The time in seconds of NS3 simulation")
 
-    parser.add_argument("-to", "--timeout", action="store", help="The timeout in seconds of NS3 simulation")
+    parser.add_argument("-to", "--timeout", action="store",
+                        help="The timeout in seconds of NS3 simulation")
 
-    parser.add_argument("-s", "--size", action="store", help="The size in meters of NS3 network simulation")
+    parser.add_argument("-s", "--size", action="store",
+                        help="The size in meters of NS3 network simulation")
 
-    parser.add_argument("-ns", "--nodespeed", action="store", help="The speed of the nodes expressed in m/s")
+    parser.add_argument("-ns", "--nodespeed", action="store",
+                        help="The speed of the nodes expressed in m/s")
 
-    parser.add_argument("-np", "--nodepause", action="store", help="The pause of the nodes expressed in s")
+    parser.add_argument("-np", "--nodepause", action="store",
+                        help="The pause of the nodes expressed in s")
 
-    parser.add_argument("-c", "--count", action="store", help="The count of simulations")
+    parser.add_argument("-c", "--count", action="store",
+                        help="The count of simulations")
 
-    parser.add_argument("-j", "--jobs", action="store", help="The number of parallel jobs")
+    parser.add_argument("-j", "--jobs", action="store",
+                        help="The number of parallel jobs")
 
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 2.0')
+    parser.add_argument('-v', '--version', action='version',
+                        version='%(prog)s 2.0')
     args = parser.parse_args()
 
     if args.number:
@@ -155,14 +164,17 @@ def create():
     # r_code = subprocess.call("docker build -t %s docker/mybase/." % baseContainerName0, shell=True)
     # check_return_code(r_code, "Building regular container %s" % baseContainerName0)
 
-    r_code = subprocess.call("docker build --no-cache -t %s docker/minimal/." % baseContainerNameMin, shell=True)
-    check_return_code(r_code, "Building minimal container %s" % baseContainerNameMin)
+    r_code = subprocess.call(
+        "docker build --no-cache -t %s docker/minimal/." % baseContainerNameMin, shell=True)
+    check_return_code(r_code, "Building minimal container %s" %
+                      baseContainerNameMin)
 
     print("--------------------------------------------------------------------------")
     # time.sleep(20)
     print("--------------------------------------------------------------------------")
 
-    r_code = subprocess.call("cd ns3 && bash update.sh tap-wifi-virtual-machine.cc", shell=True)
+    r_code = subprocess.call(
+        "cd ns3 && bash update.sh tap-wifi-virtual-machine.cc", shell=True)
     if r_code != 0:
         print("Error copying latest ns3 file")
     else:
@@ -174,8 +186,10 @@ def create():
     # time.sleep(20)
     print("--------------------------------------------------------------------------")
 
-    r_code = subprocess.call("cd $NS3_HOME && ./waf configure --disable-examples --disable-tests --disable-python --enable-modules=antenna,bridge,core,csma,mobility,network,propagation,tap-bridge,virtual-net-device,wave,wifi".format(jobs), shell=True)
-    r_code = subprocess.call("cd $NS3_HOME && ./waf build -j {} -d optimized --disable-examples --disable-tests ".format(jobs), shell=True)
+    r_code = subprocess.call(
+        "cd $NS3_HOME && ./waf configure --disable-examples --disable-tests --disable-python --enable-modules=antenna,bridge,core,csma,mobility,network,propagation,tap-bridge,virtual-net-device,wave,wifi".format(jobs), shell=True)
+    r_code = subprocess.call(
+        "cd $NS3_HOME && ./waf build -j {} -d optimized --disable-examples --disable-tests ".format(jobs), shell=True)
     if r_code == 0:
         print("NS3 BUILD WIN!")
     else:
@@ -226,7 +240,8 @@ def create():
         print("VOLUMES: " + volumes)
 
         acc_status += subprocess.call(
-            "docker run --privileged -dit --net=none %s %s --name %s %s" % (volumes, environment_variables, nameList[x], baseContainerNameMin),
+            "docker run --privileged -dit --net=none %s %s --name %s %s" % (
+                volumes, environment_variables, nameList[x], baseContainerNameMin),
             shell=True)
 
     # If something went wrong running the docker containers, we panic and exit
@@ -234,7 +249,8 @@ def create():
 
     time.sleep(1)
     print("--------------------------------------------------------------------------")
-    print('Finished running containers | Date now: %s' % datetime.datetime.now())
+    print('Finished running containers | Date now: %s' %
+          datetime.datetime.now())
     print("--------------------------------------------------------------------------")
 
     #############################
@@ -243,7 +259,8 @@ def create():
     # But in the source you can find more examples in the same dir.
     acc_status = 0
     for x in range(0, numberOfNodes):
-        acc_status += subprocess.call("bash net/singleSetup.sh %s" % (nameList[x]), shell=True)
+        acc_status += subprocess.call("bash net/singleSetup.sh %s" %
+                                      (nameList[x]), shell=True)
 
     check_return_code(acc_status, "Creating bridge and tap interface")
 
@@ -255,7 +272,8 @@ def create():
 
     time.sleep(1)
     print("--------------------------------------------------------------------------")
-    print('Finished creating bridges and taps | Date now: %s' % datetime.datetime.now())
+    print('Finished creating bridges and taps | Date now: %s' %
+          datetime.datetime.now())
     print("--------------------------------------------------------------------------")
 
     #############################
@@ -263,26 +281,31 @@ def create():
     # https://docs.docker.com/v1.7/articles/networking/
     acc_status = 0
     for x in range(0, numberOfNodes):
-        cmd = ['docker', 'inspect', '--format', "'{{ .State.Pid }}'", nameList[x]]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        cmd = ['docker', 'inspect', '--format',
+               "'{{ .State.Pid }}'", nameList[x]]
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
         out, err = p.communicate()
         pid = out[1:-2].strip()
 
         with open(pidsDirectory + nameList[x], "w") as text_file:
             text_file.write(str(pid, 'utf-8'))
 
-        acc_status += subprocess.call("bash net/container.sh %s %s" % (nameList[x], x), shell=True)
+        acc_status += subprocess.call("bash net/container.sh %s %s" %
+                                      (nameList[x], x), shell=True)
 
     # If something went wrong creating the bridges and tap interfaces, we panic and exit
     # check_return_code( acc_status, "Creating bridge side-int-X and side-ext-X" )
     # Old behaviour, but I got situations where this failed, who knows why and basically stopped everything
     # therefore I changed it to passive, if one fails, who cares but keep on going so the next simulations
     # dont break
-    check_return_code_chill(acc_status, "Creating bridge side-int-X and side-ext-X")
+    check_return_code_chill(
+        acc_status, "Creating bridge side-int-X and side-ext-X")
 
     print("Done.")
 
-    print('Finished setting up bridges | Date now: %s' % datetime.datetime.now())
+    print('Finished setting up bridges | Date now: %s' %
+          datetime.datetime.now())
     print("--------------------------------------------------------------------------")
 
     return
@@ -301,9 +324,10 @@ def ns3():
 
     total_emu_time = (5 * 60) * numberOfNodes
 
-    print('About to start NS3 RUN  with total emulation time of %s' % str(total_emu_time))
+    print('About to start NS3 RUN  with total emulation time of %s' %
+          str(total_emu_time))
 
-    ns3_cmd = 'cd $NS3_HOME && ./waf --run scratch/tap-test'
+    ns3_cmd = 'cd $NS3_HOME && ./waf --run scratch/tap-vm'
     # tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
     # tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
     # ns3_cmd = tmp.format(jobs, numberOfNodesStr, total_emu_time, scenarioSize, nodeSpeed, nodePause)
@@ -317,7 +341,8 @@ def ns3():
     with open(pidsDirectory + "ns3", "w") as text_file:
         text_file.write(str(proc1.pid))
 
-    print('Finished running NS3 in the background | Date now: %s' % datetime.datetime.now())
+    print('Finished running NS3 in the background | Date now: %s' %
+          datetime.datetime.now())
 
     return
 
@@ -344,18 +369,23 @@ def run_emu():
         container_name_list += nameList[x]
         container_name_list += " "
 
-    acc_status = subprocess.call("docker restart -t 0 %s" % container_name_list, shell=True)
+    acc_status = subprocess.call(
+        "docker restart -t 0 %s" % container_name_list, shell=True)
     check_return_code_chill(acc_status, "Restarting containers")
 
     for x in range(0, numberOfNodes):
         if os.path.exists(pidsDirectory + nameList[x]):
             with open(pidsDirectory + nameList[x], "rt") as in_file:
                 text = in_file.read()
-                r_code = subprocess.call("rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
-                check_return_code_chill(r_code, "Destroying docker bridges %s" % (nameList[x]))
+                r_code = subprocess.call(
+                    "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
+                check_return_code_chill(
+                    r_code, "Destroying docker bridges %s" % (nameList[x]))
 
-        cmd = ['docker', 'inspect', '--format', "'{{ .State.Pid }}'", nameList[x]]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        cmd = ['docker', 'inspect', '--format',
+               "'{{ .State.Pid }}'", nameList[x]]
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
         out, err = p.communicate()
         pid = out[1:-2].strip()
 
@@ -364,13 +394,16 @@ def run_emu():
 
     # syncConfigTime (s) = seconds + ~seconds
     sync_config_time = int(time.time()) + int(2 * numberOfNodes)
-    write_conf(sync_config_time, numberOfNodes, timeoutStr, rootNode, 10001, "conf.yml")
+    write_conf(sync_config_time, numberOfNodes,
+               timeoutStr, rootNode, 10001, "conf.yml")
 
     acc_status = 0
     for x in range(0, numberOfNodes):
-        acc_status += subprocess.call("bash net/container.sh %s %s" % (nameList[x], x), shell=True)
+        acc_status += subprocess.call("bash net/container.sh %s %s" %
+                                      (nameList[x], x), shell=True)
 
-    check_return_code_chill(acc_status, "Cleaning old netns and setting up new")
+    check_return_code_chill(
+        acc_status, "Cleaning old netns and setting up new")
 
     print('Finished RUN SIM | Date now: %s' % datetime.datetime.now())
     print('Letting the simulation run for %s' % emulationTimeStr)
@@ -412,21 +445,27 @@ def destroy():
     print("Destroying ...")
 
     print("DESTROYING ALL CONTAINERS")
-    r_code = subprocess.call("docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
+    r_code = subprocess.call(
+        "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
     check_return_code_chill(r_code, "Destroying ALL containers")
 
     for x in range(0, numberOfNodes):
 
-        r_code = subprocess.call("bash net/singleDestroy.sh %s" % (nameList[x]), shell=True)
-        check_return_code_chill(r_code, "Destroying bridge and tap interface %s" % (nameList[x]))
+        r_code = subprocess.call(
+            "bash net/singleDestroy.sh %s" % (nameList[x]), shell=True)
+        check_return_code_chill(
+            r_code, "Destroying bridge and tap interface %s" % (nameList[x]))
 
         if os.path.exists(pidsDirectory + nameList[x]):
             with open(pidsDirectory + nameList[x], "rt") as in_file:
                 text = in_file.read()
-                r_code = subprocess.call("rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
-                check_return_code_chill(r_code, "Destroying docker bridges %s" % (nameList[x]))
+                r_code = subprocess.call(
+                    "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
+                check_return_code_chill(
+                    r_code, "Destroying docker bridges %s" % (nameList[x]))
 
-        r_code = subprocess.call("rm -rf %s" % (pidsDirectory + nameList[x]), shell=True)
+        r_code = subprocess.call("rm -rf %s" %
+                                 (pidsDirectory + nameList[x]), shell=True)
         check_return_code_chill(r_code, "Removing pids directory")
 
     return
