@@ -329,9 +329,10 @@ def ns3():
           str(total_emu_time))
 
     # ns3_cmd = 'cd $NS3_HOME && ./waf --run scratch/tap-vm'
-    tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
+    tmp = './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
     tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
-    ns3_cmd = tmp.format(jobs, numberOfNodesStr, total_emu_time, scenarioSize, nodeSpeed, nodePause)
+    ns3_cmd = tmp.format(jobs, numberOfNodesStr,
+                         total_emu_time, scenarioSize, nodeSpeed, nodePause)
 
     print(ns3_cmd)
     proc1 = subprocess.Popen(ns3_cmd, shell=True)
