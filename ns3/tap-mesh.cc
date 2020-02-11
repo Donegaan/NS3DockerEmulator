@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 
   MeshHelper mesh = MeshHelper::Default();
   mesh.SetStackInstaller("ns3::Dot11sStack");
-  NetDeviceContainer meshDevices = mesh.Install(wifiPhy, nodes);
+  NetDeviceContainer devices = mesh.Install(wifiPhy, nodes);
 
   //
   // We need location information since we are talking about wifi, so add a
