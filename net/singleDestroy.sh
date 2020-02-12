@@ -13,13 +13,13 @@ NAME=$1
 
 # ifconfig br-$NAME down
 
-ip link set dev br-$NAME down
+sudo ip link set dev br-$NAME down
 
-brctl delif br-$NAME tap-$NAME
+sudo brctl delif br-$NAME tap-$NAME
 
-brctl delbr br-$NAME
+sudo brctl delbr br-$NAME
 
 # ifconfig tap-$NAME down
-ip link set dev tap-$NAME down
+sudo ip link set dev tap-$NAME down
 
-tunctl -d tap-$NAME
+sudo tunctl -d tap-$NAME
