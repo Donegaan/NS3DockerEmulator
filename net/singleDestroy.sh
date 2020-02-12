@@ -13,6 +13,7 @@ NAME=$1
 
 # ifconfig br-$NAME down
 
+echo "Bridge name: br-$NAME"
 sudo ip link set dev br-$NAME down
 
 sudo brctl delif br-$NAME tap-$NAME
