@@ -11,12 +11,15 @@ fi
 
 NAME=$1
 
-ifconfig br-$NAME down
+# ifconfig br-$NAME down
+
+ip link set dev br-$NAME down
 
 brctl delif br-$NAME tap-$NAME
 
 brctl delbr br-$NAME
 
-ifconfig tap-$NAME down
+# ifconfig tap-$NAME down
+ip link set dev tap-$NAME down
 
 tunctl -d tap-$NAME
