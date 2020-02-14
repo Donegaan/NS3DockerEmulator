@@ -47,10 +47,10 @@ RUN apk update \
   && mv multichaind multichain-cli multichain-util /usr/local/bin \
   && curl https://bootstrap.pypa.io/get-pip.py | python \
   && pip install dump-env -q \
-  && mkdir /root/.multichain \
+  # && mkdir /root/.multichain \
   && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
 
-COPY *.template /root/.multichain/
+# COPY *.template /root/.multichain/
 # COPY --from=multichain-builder /tmp /tmp
 
 #CMD ["bash", "/wrapper.sh"]
