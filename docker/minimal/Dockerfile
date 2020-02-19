@@ -27,10 +27,6 @@ FROM alpine
 
 #RUN apk update && apk add bash
 
-COPY wrapper.sh /wrapper.sh
-RUN chmod +x /wrapper.sh
-COPY --from=builder /go/bin/Beacon /beacon
-
 ENV MULTICHAIN_VERSION 2.0.5
 
 WORKDIR /tmp
@@ -50,13 +46,19 @@ RUN apk update \
   # && mkdir /root/.multichain \
   && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
 
-# COPY *.template /root/.multichain/
-# COPY --from=multichain-builder /tmp /tmp
+COPY *.template /root/.multichain/
+COPY --from=multichain-builder /tmp /tmp
+
+WORKDIR ~
+
+COPY wrapper.sh /wrapper.sh
+RUN chmod +x /wrapper.sh
+COPY --from=builder /go/bin/Beacon /beacon
 
 #CMD ["bash", "/wrapper.sh"]
 # CMD /wrapper.sh
 
-CMD /bin/bash
+CMD /bin/ash
 
 # docker build -t hello-world-multi-stage .
 # docker run hello-world-multi-stage
