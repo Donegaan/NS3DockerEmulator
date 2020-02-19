@@ -46,8 +46,8 @@ RUN apk update \
   # && mkdir /root/.multichain \
   && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
 
-COPY *.template /root/.multichain/
-COPY --from=multichain-builder /tmp /tmp
+# COPY *.template /root/.multichain/
+# COPY --from=multichain-builder /tmp /tmp
 
 WORKDIR ~
 
