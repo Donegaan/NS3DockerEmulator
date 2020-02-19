@@ -35,11 +35,11 @@ ENV MULTICHAIN_VERSION 2.0.5
 
 WORKDIR /tmp
 
-RUN apk update \
-  && apk upgrade -q \
-  # && apk dist-upgrade -q \
-  && apk add -q wget curl python \
-  # && apk clean \
+RUN apt-get update \
+  && apt-get upgrade -q -y \
+  && apt-get dist-upgrade -q -y \
+  && apt-get install -q -y wget curl python \
+  && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
   && tar -xvzf multichain-${MULTICHAIN_VERSION}.tar.gz \
@@ -47,7 +47,7 @@ RUN apk update \
   && mv multichaind multichain-cli multichain-util /usr/local/bin \
   && curl https://bootstrap.pypa.io/get-pip.py | python \
   && pip install dump-env -q \
-  # && mkdir /root/.multichain \
+  && mkdir /root/.multichain \
   && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
 
 # COPY *.template /root/.multichain/
