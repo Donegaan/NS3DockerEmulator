@@ -97,6 +97,8 @@
 
 using namespace ns3;
 
+int m_packetSize = 100;
+
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
 void SendPacket(void)
