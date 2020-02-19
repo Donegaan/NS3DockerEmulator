@@ -2,15 +2,15 @@
 # Build stage
 ############################################################
 
-FROM golang:1.9 as builder
+# FROM golang:1.9 as builder
 
-# Building Beacon simple app
-WORKDIR /go/src/github.com/Donegaan
-RUN git clone https://github.com/Donegaan/Beacon.git
-WORKDIR /go/src/github.com/Donegaan/Beacon
-RUN go get && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"'
+# # Building Beacon simple app
+# WORKDIR /go/src/github.com/Donegaan
+# RUN git clone https://github.com/Donegaan/Beacon.git
+# WORKDIR /go/src/github.com/Donegaan/Beacon
+# RUN go get && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"'
 
-RUN ldd /go/bin/Beacon | grep -q "not a dynamic executable"
+# RUN ldd /go/bin/Beacon | grep -q "not a dynamic executable"
 
 # FROM ubuntu as multichain-builder
 
@@ -27,9 +27,9 @@ FROM alpine
 
 #RUN apk update && apk add bash
 
-COPY wrapper.sh /wrapper.sh
-RUN chmod +x /wrapper.sh
-COPY --from=builder /go/bin/Beacon /beacon
+# COPY wrapper.sh /wrapper.sh
+# RUN chmod +x /wrapper.sh
+# COPY --from=builder /go/bin/Beacon /beacon
 
 ENV MULTICHAIN_VERSION 2.0.5
 
