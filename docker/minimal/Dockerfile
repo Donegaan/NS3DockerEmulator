@@ -54,7 +54,9 @@ RUN apk update \
 # COPY --from=multichain-builder /tmp /tmp
 
 #CMD ["bash", "/wrapper.sh"]
-CMD /wrapper.sh
+# CMD /wrapper.sh
+
+CMD /bin/bash
 
 # docker build -t hello-world-multi-stage .
 # docker run hello-world-multi-stage
