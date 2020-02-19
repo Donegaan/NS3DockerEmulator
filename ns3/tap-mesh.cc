@@ -99,6 +99,26 @@ using namespace ns3;
 
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
+void SendPacket(void)
+{
+  Ptr<Packet> packet = Create<Packet>(m_packetSize);
+  // m_socket->Send(packet);
+
+  // if (++m_packetsSent < m_nPackets)
+  // {
+  ScheduleTx();
+  // }
+}
+
+void ScheduleTx(void)
+{
+  // if (m_running)
+  // {
+  Time tNext(Seconds(m_packetSize * 8 / static_cast<double>(m_dataRate.GetBitRate())));
+  m_sendEvent = Simulator::Schedule(tNext, &MyApp::SendPacket, this);
+  // }
+}
+
 int main(int argc, char *argv[])
 {
   int NumNodes = 10;
@@ -286,6 +306,7 @@ int main(int argc, char *argv[])
   //  NS_LOG_UNCOND ("Running simulation in wifi mode");
   Simulator::Stop(Seconds(TotalTime));
   Simulator::Run();
+  SendPacket();
   Simulator::Destroy();
 
   // Exit the MPI execution environment
