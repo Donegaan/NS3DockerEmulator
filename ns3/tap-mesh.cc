@@ -103,6 +103,8 @@ EventId m_sendEvent;
 
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
+void SendPacket(void);
+
 void ScheduleTx(void)
 {
   // if (m_running)
