@@ -103,6 +103,15 @@ EventId m_sendEvent;
 
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
+void ScheduleTx(void)
+{
+  // if (m_running)
+  // {
+  Time tNext(Seconds(m_packetSize * 8 / static_cast<double>(m_dataRate.GetBitRate())));
+  m_sendEvent = Simulator::Schedule(tNext, SendPacket, this);
+  // }
+}
+
 void SendPacket(void)
 {
   Ptr<Packet> packet = Create<Packet>(m_packetSize);
@@ -111,15 +120,6 @@ void SendPacket(void)
   // if (++m_packetsSent < m_nPackets)
   // {
   ScheduleTx();
-  // }
-}
-
-void ScheduleTx(void)
-{
-  // if (m_running)
-  // {
-  Time tNext(Seconds(m_packetSize * 8 / static_cast<double>(m_dataRate.GetBitRate())));
-  m_sendEvent = Simulator::Schedule(tNext, SendPacket, this);
   // }
 }
 
