@@ -97,7 +97,8 @@
 
 using namespace ns3;
 
-int m_packetSize = 100;
+uint32_t m_packetSize = 1040;
+DataRate m_dataRate = DataRate("1Mbps");
 
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
