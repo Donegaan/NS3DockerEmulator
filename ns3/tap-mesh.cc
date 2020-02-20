@@ -99,6 +99,7 @@ using namespace ns3;
 
 uint32_t m_packetSize = 1040;
 DataRate m_dataRate = DataRate("1Mbps");
+EventId m_sendEvent;
 
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
@@ -118,7 +119,7 @@ void ScheduleTx(void)
   // if (m_running)
   // {
   Time tNext(Seconds(m_packetSize * 8 / static_cast<double>(m_dataRate.GetBitRate())));
-  m_sendEvent = Simulator::Schedule(tNext, &MyApp::SendPacket, this);
+  m_sendEvent = Simulator::Schedule(tNext, SendPacket, this);
   // }
 }
 
