@@ -14,7 +14,7 @@ numberOfNodesStr = '20'
 emulationTimeStr = '600'
 scenarioSize = '300'
 noBuildCacheDocker = ''
-timeoutStr = '800'
+timeoutStr = '3000'
 mode = 'single'
 rootNode = '10.12.0.1'
 nodeSpeed = '5'
@@ -164,6 +164,7 @@ def create():
     # r_code = subprocess.call("docker build -t %s docker/mybase/." % baseContainerName0, shell=True)
     # check_return_code(r_code, "Building regular container %s" % baseContainerName0)
 
+
     # Don't think we need to rebuild container everytime right now.
     r_code = subprocess.call(
         "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
@@ -176,6 +177,7 @@ def create():
         print("Error copying latest ns3 file")
     else:
         print("NS3 up to date!")
+
         print("Go to NS3 folder, probably cd ~/ns-3-allinone/ns-3-dev")
 
     r_code = subprocess.call("cd ~/ns-3-allinone/ns-3-dev && ./waf build -j {} -d optimized --disable-examples".format(jobs),
@@ -187,10 +189,14 @@ def create():
 
     print('NS3 Build finished | Date now: %s' % datetime.datetime.now())
 
+    print("--------------------------------------------------------------------------")
+    # time.sleep(20)
+    print("--------------------------------------------------------------------------")
+
     #############################
     # First and a half ... we generate the configuration yaml files.
 
-    write_conf(0, numberOfNodes, timeoutStr, 0, 10001, "conf1.yml")
+    write_conf(0, numberOfNodes, timeoutStr, 0, 10001, "conf.yml")
 
     #############################
     # Second, we run the numberOfNodes of containers.
@@ -218,19 +224,25 @@ def create():
         conf_host_path = dir_path + "/conf"
 
         volumes = "-v " + log_host_path + ":/var/log/golang "
-        volumes += "-v " + conf_host_path + ":/beacon_conf "
+        volumes += "-v " + conf_host_path + ":/app "
+
+        environment_variables = "--env RAFT_PORT=10123 "
+        environment_variables += "--env RAFT_TIMEOUT="+timeoutStr
 
         print("VOLUMES: " + volumes)
 
         acc_status += subprocess.call(
+
             "docker run --privileged -dit --net=none %s --name %s %s" % (
                 volumes, nameList[x], baseContainerNameMin),
+
             shell=True)
 
     # If something went wrong running the docker containers, we panic and exit
     check_return_code(acc_status, "Running docker containers")
 
     time.sleep(1)
+
     print('Finished running containers | Date now: %s' %
           datetime.datetime.now())
 
@@ -252,6 +264,7 @@ def create():
         os.makedirs(pidsDirectory)
 
     time.sleep(1)
+    
     print('Finished creating bridges and taps | Date now: %s' %
           datetime.datetime.now())
 
@@ -283,8 +296,10 @@ def create():
 
     print("Done.")
 
+
     print('Finished setting up bridges | Date now: %s' %
           datetime.datetime.now())
+
 
     return
 
@@ -372,6 +387,7 @@ def run_emu():
             text_file.write(str(pid, 'utf-8'))
 
     # syncConfigTime (s) = seconds + ~seconds
+
     sync_config_time = int(time.time()) + numberOfNodes
     write_conf(sync_config_time, numberOfNodes,
                timeoutStr, 1, 10001, "conf1.yml")
@@ -400,8 +416,13 @@ def write_conf(target, nodes, timeout, root, port, filename):
         'nodes': nodes,
         'timeout': int(timeout),
         'rootnode': root,
-        'port': port
+        'port': port,
+        'raftsa': 0
     }
+
+    # raftsa = 0 ... means working with something else
+    # raftsa = 2 ... means working stand alone
+
     filename = "conf/" + filename
     with open(filename, 'w') as yaml_file:
         yaml.dump(config, yaml_file, default_flow_style=False)

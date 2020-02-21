@@ -79,52 +79,51 @@ main (int argc, char *argv[])
   //
   NetDeviceContainer devices = wifi.Install (wifiPhy, wifiMac, nodes);
 
+  //
+  // We need location information since we are talking about wifi, so add a
+  // constant position to the ghost nodes.
+  //
+  MobilityHelper mobility;
+
+  // ++++++++++++++++++++++++++++++++++++
+  // <Positioning>
+  // ++++++++++++++++++++++++++++++++++++
+
+  ObjectFactory pos;
+  pos.SetTypeId ("ns3::RandomRectanglePositionAllocator");
+  std::stringstream xAxisMax;
+  xAxisMax << "ns3::UniformRandomVariable[Min=0.0|Max=" << scenarioSizeX << "]";
+  std::stringstream yAxisMax;
+  yAxisMax << "ns3::UniformRandomVariable[Min=0.0|Max=" << scenarioSizeY << "]";
+  pos.Set ("X", StringValue ( xAxisMax.str () ));
+  pos.Set ("Y", StringValue ( yAxisMax.str () ));
+  Ptr<PositionAllocator> taPositionAlloc = pos.Create ()->GetObject<PositionAllocator> ();
+
+
+  // ++++++++++++++++++++++++++++++++++++
+  // </Positioning>
+  // ++++++++++++++++++++++++++++++++++++
+
 
   // ++++++++++++++++++++++++++++++++++++
   // <Mobility>
   // ++++++++++++++++++++++++++++++++++++
 
-  double radio = scenarioSizeX / 2;
-
   std::stringstream ssSpeed;
-  ssSpeed << "ns3::ConstantRandomVariable[Constant=" << nodeSpeed << ".0]";
-
+  ssSpeed << "ns3::UniformRandomVariable[Min=0.0|Max=" << nodeSpeed << "]";
   std::stringstream ssPause;
-  ssPause << "" << nodePause << "s";
-
-  std::stringstream ssBounds;
-  ssBounds << "0|" << scenarioSizeX << "|0|" << scenarioSizeY ;
-
-  std::stringstream ssDiscPos;
-  ssDiscPos << "" << radio ;
-
-  std::stringstream ssRho;
-  ssRho << "ns3::UniformRandomVariable[Min=0|Max=" << radio << "]" ;
-
-
-    Config::SetDefault ("ns3::RandomWalk2dMobilityModel::Mode", StringValue ("Time"));
-    Config::SetDefault ("ns3::RandomWalk2dMobilityModel::Time", StringValue ( ssPause.str () ));
-    Config::SetDefault ("ns3::RandomWalk2dMobilityModel::Speed", StringValue ( ssSpeed.str () ));
-    Config::SetDefault ("ns3::RandomWalk2dMobilityModel::Bounds", StringValue ( ssBounds.str () ));
-
-    MobilityHelper mobility;
-    mobility.SetPositionAllocator ("ns3::RandomDiscPositionAllocator",
-                                 "X", StringValue ( ssDiscPos.str () ),
-                                 "Y", StringValue ( ssDiscPos.str () ),
-                                 "Rho", StringValue ( ssRho.str () ));
-    mobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel",
-                             "Mode", StringValue ("Time"),
-                             "Time", StringValue ( ssPause.str () ),
-                             "Speed", StringValue ( ssSpeed.str () ),
-                             "Bounds", StringValue ( ssBounds.str () ));
-
+  ssPause << "ns3::ConstantRandomVariable[Constant=" << nodePause << "]";
+  mobility.SetMobilityModel ("ns3::RandomWaypointMobilityModel",
+                                  "Speed", StringValue (ssSpeed.str ()),
+                                  "Pause", StringValue (ssPause.str ()),
+                                  "PositionAllocator", PointerValue (taPositionAlloc));
 
 
   // ++++++++++++++++++++++++++++++++++++
   // </Mobility>
   // ++++++++++++++++++++++++++++++++++++
 
-//  mobility.SetPositionAllocator (taPositionAlloc);
+  mobility.SetPositionAllocator (taPositionAlloc);
   mobility.Install (nodes);
 
   TapBridgeHelper tapBridge;
@@ -146,5 +145,6 @@ main (int argc, char *argv[])
   Simulator::Stop (Seconds (TotalTime));
   Simulator::Run ();
   Simulator::Destroy ();
+
 }
 
