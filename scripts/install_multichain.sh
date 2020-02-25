@@ -12,5 +12,4 @@ curl https://bootstrap.pypa.io/get-pip.py | python
 pip install dump-env -q
 mkdir /root/.multichain
 rm -rf /tmp/multichain-2.0.5
-cp *.template /root/.multichain
-cd /root/.multichain
+
