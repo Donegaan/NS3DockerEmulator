@@ -164,7 +164,6 @@ def create():
     # r_code = subprocess.call("docker build -t %s docker/mybase/." % baseContainerName0, shell=True)
     # check_return_code(r_code, "Building regular container %s" % baseContainerName0)
 
-
     # Don't think we need to rebuild container everytime right now.
     r_code = subprocess.call(
         "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
@@ -233,7 +232,7 @@ def create():
 
         acc_status += subprocess.call(
 
-            "docker run --privileged -dit --net=none %s --name %s %s" % (
+            "docker run --privileged -dit --net=bridge %s --name %s %s" % (
                 volumes, nameList[x], baseContainerNameMin),
 
             shell=True)
@@ -264,7 +263,7 @@ def create():
         os.makedirs(pidsDirectory)
 
     time.sleep(1)
-    
+
     print('Finished creating bridges and taps | Date now: %s' %
           datetime.datetime.now())
 
@@ -296,10 +295,8 @@ def create():
 
     print("Done.")
 
-
     print('Finished setting up bridges | Date now: %s' %
           datetime.datetime.now())
-
 
     return
 
