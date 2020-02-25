@@ -9,6 +9,6 @@ brctl addif br-left tap-left
 ifconfig br-left up
 brctl addif br-right tap-right
 ifconfig br-right up
-pushd /proc/sys/net/bridge
+pushd /proc/sys/net/bridge # Push this directory to stack
 for f in bridge-nf-*; do echo 0 > $f; done
 popd
