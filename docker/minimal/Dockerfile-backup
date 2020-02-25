@@ -1,58 +1,32 @@
-############################################################
-# Build stage
-############################################################
+FROM ubuntu:bionic
 
-FROM golang:1.9 as builder
+LABEL vendor="Chainstack"
 
-# Building Beacon simple app
-WORKDIR /go/src/github.com/chepeftw
-RUN git clone https://github.com/chepeftw/raft.git \
-    && git clone https://github.com/chepeftw/bchainlibs.git \
-    && git clone https://github.com/chepeftw/blockchainrouterlayer.git \
-    && git clone https://github.com/chepeftw/blockchainminer.git \
-    && git clone https://github.com/chepeftw/blockchainmanet.git
+ENV DEBIAN_FRONTEND noninteractive
+ENV LANG en_US.UTF-8
+ENV LC_ALL C.UTF-8
 
-WORKDIR /go/src/github.com/chepeftw/bchainlibs
-RUN go get \
-    && go build
+ENV MULTICHAIN_VERSION 2.0.5
 
-WORKDIR /go/src/github.com/chepeftw/raft
-RUN go get \
-    && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"' \
-    && ldd /go/bin/raft | grep -q "not a dynamic executable"
+WORKDIR /tmp
 
-WORKDIR /go/src/github.com/chepeftw/blockchainrouterlayer
-RUN go get \
-    && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"' \
-    && ldd /go/bin/blockchainrouterlayer | grep -q "not a dynamic executable"
+RUN apt-get update \
+    && apt-get upgrade -q -y \
+    && apt-get dist-upgrade -q -y \
+    && apt-get install -q -y wget curl python \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
+    && tar -xvzf multichain-${MULTICHAIN_VERSION}.tar.gz \
+    && cd multichain-${MULTICHAIN_VERSION} \
+    && mv multichaind multichain-cli multichain-util /usr/local/bin \
+    && curl https://bootstrap.pypa.io/get-pip.py | python \
+    && pip install dump-env -q \
+    && mkdir /root/.multichain \
+    && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
 
-WORKDIR /go/src/github.com/chepeftw/blockchainminer
-RUN go get \
-    && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"' \
-    && ldd /go/bin/blockchainminer | grep -q "not a dynamic executable"
+# COPY *.template /root/.multichain/
 
-WORKDIR /go/src/github.com/chepeftw/blockchainmanet
-RUN go get \
-    && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"' \
-    && ldd /go/bin/blockchainmanet | grep -q "not a dynamic executable"
+# WORKDIR /root/.multichain
 
-
-############################################################
-# Run stage
-############################################################
-
-FROM alpine
-
-COPY wrapper.sh /wrapper.sh
-COPY --from=builder /go/bin/raft /raft
-COPY --from=builder /go/bin/blockchainrouterlayer /router
-COPY --from=builder /go/bin/blockchainminer /miner
-COPY --from=builder /go/bin/blockchainmanet /blockchain
-
-RUN chmod +x /wrapper.sh
-
-CMD /wrapper.sh
-
-# docker build -t hello-world-multi-stage .
-# docker run hello-world-multi-stage
-# docker image ls hello-world-multi-stage
+# CMD ["/bin/bash"]
