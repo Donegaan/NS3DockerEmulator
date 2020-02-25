@@ -25,8 +25,8 @@ RUN apt-get update \
     && mkdir /root/.multichain \
     && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
 
-COPY *.template /root/.multichain/
+# COPY *.template /root/.multichain/
 
-WORKDIR /root/.multichain
+# WORKDIR /root/.multichain
 
-CMD ["/bin/bash"]
+# CMD ["/bin/bash"]
