@@ -13,7 +13,7 @@ WORKDIR /tmp
 RUN apk update \
     && apk upgrade -q \
     # && apk dist-upgrade -q -y \
-    && apk add -q wget curl python \
+    && apk add -q wget curl python nmap \
     # && apk clean \
     && rm -rf /var/lib/apt/lists/* \
     && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
