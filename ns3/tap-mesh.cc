@@ -27,59 +27,6 @@
 // https://www.nsnam.org/docs/models/html/distributed.html#current-implementation-details
 // it seems not feasible due to AWS restrictions, MAYBE it works in a dedicated server
 
-//
-// This is an illustration of how one could use virtualization techniques to
-// allow running applications on virtual machines talking over simulated
-// networks.
-//
-// The actual steps required to configure the virtual machines can be rather
-// involved, so we don't go into that here.  Please have a look at one of
-// our HOWTOs on the nsnam wiki for more details about how to get the
-// system confgured.  For an example, have a look at "HOWTO Use Linux
-// Containers to set up virtual networks" which uses this code as an
-// example.
-//
-// The configuration you are after is explained in great detail in the
-// HOWTO, but looks like the following:
-//
-//  +----------+                           +----------+
-//  | virtual  |                           | virtual  |
-//  |  Linux   |                           |  Linux   |
-//  |   Host   |                           |   Host   |
-//  |          |                           |          |
-//  |   eth0   |                           |   eth0   |
-//  +----------+                           +----------+
-//       |                                      |
-//  +----------+                           +----------+
-//  |  Linux   |                           |  Linux   |
-//  |  Bridge  |                           |  Bridge  |
-//  +----------+                           +----------+
-//       |                                      |
-//  +------------+                       +-------------+
-//  | "tap-left" |                       | "tap-right" |
-//  +------------+                       +-------------+
-//       |           n0            n1           |
-//       |       +--------+    +--------+       |
-//       +-------|  tap   |    |  tap   |-------+
-//               | bridge |    | bridge |
-//               +--------+    +--------+
-//               |  wifi  |    |  wifi  |
-//               +--------+    +--------+
-//                   |             |
-//                 ((*))         ((*))
-//
-//                       Wifi LAN
-//
-//                        ((*))
-//                          |
-//                     +--------+
-//                     |  wifi  |
-//                     +--------+
-//                     | access |
-//                     |  point |
-//                     +--------+
-//
-
 #include <iostream>
 #include <fstream>
 
