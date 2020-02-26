@@ -1,20 +1,20 @@
-FROM ubuntu:bionic
+FROM alpine
 
-LABEL vendor="Chainstack"
+# LABEL vendor="Chainstack"
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV LANG en_US.UTF-8
-ENV LC_ALL C.UTF-8
+# ENV DEBIAN_FRONTEND noninteractive
+# ENV LANG en_US.UTF-8
+# ENV LC_ALL C.UTF-8
 
 ENV MULTICHAIN_VERSION 2.0.5
 
 WORKDIR /tmp
 
-RUN apt-get update \
-    && apt-get upgrade -q -y \
-    && apt-get dist-upgrade -q -y \
-    && apt-get install -q -y wget curl python \
-    && apt-get clean \
+RUN apk update \
+    && apk upgrade -q \
+    # && apk dist-upgrade -q -y \
+    && apk add -q wget curl python \
+    # && apk clean \
     && rm -rf /var/lib/apt/lists/* \
     && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
     && tar -xvzf multichain-${MULTICHAIN_VERSION}.tar.gz \
