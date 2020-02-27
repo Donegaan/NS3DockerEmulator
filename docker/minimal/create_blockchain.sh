@@ -68,7 +68,7 @@ EOF
 cp ~/.multichain/$CHAINNAME/multichain.conf ~/.multichain/multichain.conf
 
 # multichaind -txindex -shrinkdebugfilesize -printtoconsole $CHAINNAME
-printf "Creating blockchain"
-multichain-util create $CHAINNAME
+# printf "Creating blockchain"
+# multichain-util create $CHAINNAME
 # printf "Starting blockchain"
 # multichaind $CHAINNAME -daemon
