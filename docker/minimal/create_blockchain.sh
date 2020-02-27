@@ -37,10 +37,10 @@ if [ ! -d /root/.multichain/$CHAINNAME ]; then
     multichain-util create $CHAINNAME
 
     # Set some required parameters in the params.dat
-    sed -i "s/^default-network-port.*/default-network-port = $NETWORK_PORT/" /root/.multichain/$CHAINNAME/params.dat
-    sed -i "s/^default-rpc-port.*/default-rpc-port = $RPC_PORT/" /root/.multichain/$CHAINNAME/params.dat
-    sed -i "s/^chain-name.*/chain-name = $CHAINNAME/" /root/.multichain/$CHAINNAME/params.dat
-    sed -i "s/^chain-description.*/chain-description = MultiChain $CHAINNAME/" /root/.multichain/$CHAINNAME/params.dat
+    sed -i "s/^default-network-port.*/default-network-port = $NETWORK_PORT/" /~/.multichain/$CHAINNAME/params.dat
+    sed -i "s/^default-rpc-port.*/default-rpc-port = $RPC_PORT/" /~/.multichain/$CHAINNAME/params.dat
+    sed -i "s/^chain-name.*/chain-name = $CHAINNAME/" /~/.multichain/$CHAINNAME/params.dat
+    sed -i "s/^chain-description.*/chain-description = MultiChain $CHAINNAME/" /~/.multichain/$CHAINNAME/params.dat
 
     # Loop over all variables that start with PARAM_
     #   PARAM_BLOCKTIME='target-block-time|40';
@@ -48,14 +48,14 @@ if [ ! -d /root/.multichain/$CHAINNAME ]; then
     ( set -o posix ; set ) | sed -n '/^PARAM_/p' | while read PARAM; do
         IFS='=' read -ra KV <<< "$PARAM"
         IFS='|' read -ra KV <<< "${!KV[0]}"
-        sed -i "s/^${KV[0]}.*/${KV[0]} = ${KV[1]}/" /root/.multichain/$CHAINNAME/params.dat
+        sed -i "s/^${KV[0]}.*/${KV[0]} = ${KV[1]}/" /~/.multichain/$CHAINNAME/params.dat
     done
 
 fi
 
-cat /root/.multichain/$CHAINNAME/params.dat
+cat /~/.multichain/$CHAINNAME/params.dat
 
-cat << EOF > /root/.multichain/$CHAINNAME/multichain.conf
+cat << EOF > /~/.multichain/$CHAINNAME/multichain.conf
 rpcuser=$RPC_USER
 rpcpassword=$RPC_PASSWORD
 rpcallowip=$RPC_ALLOW_IP
@@ -65,7 +65,7 @@ EOF
 # if [ ! -z "$BLOCKNOTIFY_SCRIPT" ]; then
 #     echo "blocknotify=$BLOCKNOTIFY_SCRIPT %s" >ter
 
-cp /root/.multichain/$CHAINNAME/multichain.conf /root/.multichain/multichain.conf
+cp /~/.multichain/$CHAINNAME/multichain.conf /~/.multichain/multichain.conf
 
 # multichaind -txindex -shrinkdebugfilesize -printtoconsole $CHAINNAME
 multichain-util create $CHAINNAME
