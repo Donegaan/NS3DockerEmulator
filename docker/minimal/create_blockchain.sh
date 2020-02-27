@@ -63,8 +63,7 @@ rpcport=$RPC_PORT
 EOF
 
 # if [ ! -z "$BLOCKNOTIFY_SCRIPT" ]; then
-#     echo "blocknotify=$BLOCKNOTIFY_SCRIPT %s" >> /root/.multichain/$CHAINNAME/multichain.conf
-# fi
+#     echo "blocknotify=$BLOCKNOTIFY_SCRIPT %s" >ter
 
 cp /root/.multichain/$CHAINNAME/multichain.conf /root/.multichain/multichain.conf
 
