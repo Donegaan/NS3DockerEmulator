@@ -68,4 +68,6 @@ EOF
 
 cp /root/.multichain/$CHAINNAME/multichain.conf /root/.multichain/multichain.conf
 
-multichaind -txindex -shrinkdebugfilesize -printtoconsole $CHAINNAME
+# multichaind -txindex -shrinkdebugfilesize -printtoconsole $CHAINNAME
+multichain-util create $CHAINNAME
+multichaind $CHAINNAME -daemon

@@ -27,4 +27,6 @@ RUN apk update \
 
 COPY create_blockchain.sh create_blockchain.sh
 
+RUN chmod +x create_blockchain.sh
+
 # CMD ["/bin/bash"]
