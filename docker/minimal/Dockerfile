@@ -8,22 +8,17 @@ FROM alpine
 
 ENV MULTICHAIN_VERSION 2.0.5
 
-WORKDIR /tmp
-
 RUN apk update \
     && apk upgrade -q \
-    # && apk dist-upgrade -q -y \
     && apk add -q wget curl python nmap bash \
-    # && apk clean \
     && rm -rf /var/lib/apt/lists/* \
+    && cd /tmp \
     && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
     && tar -xvzf multichain-${MULTICHAIN_VERSION}.tar.gz \
     && cd multichain-${MULTICHAIN_VERSION} \
     && mv multichaind multichain-cli multichain-util /usr/local/bin \
-    && curl https://bootstrap.pypa.io/get-pip.py | python \
-    && pip install dump-env -q \
-    && mkdir /root/.multichain \
-    && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
+    && cd /tmp \
+    && rm -Rf multichain*
 
 COPY create_blockchain.sh /root/create_blockchain.sh
 
