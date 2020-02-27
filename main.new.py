@@ -232,7 +232,7 @@ def create():
 
         acc_status += subprocess.call(
 
-            "docker run --privileged -dit --net=bridge %s --name %s %s" % (
+            "docker run --privileged -d -t --net=bridge %s --name %s %s" % (
                 volumes, nameList[x], baseContainerNameMin),
 
             shell=True)
