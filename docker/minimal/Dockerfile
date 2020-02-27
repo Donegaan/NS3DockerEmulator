@@ -25,10 +25,12 @@ RUN apk update \
     && mkdir /root/.multichain \
     && rm -rf /tmp/multichain-${MULTICHAIN_VERSION}
 
-COPY create_blockchain.sh create_blockchain.sh
+COPY create_blockchain.sh /root/create_blockchain.sh
 
-RUN chmod +x create_blockchain.sh
+RUN chmod a+x /root/create_blockchain.sh
 
-RUN ./create_blockchain.sh
+# RUN ./create_blockchain.sh
 
 # CMD ["/bin/bash"]
+
+CMD ["/bin/bash", "/root/create_blockchain.sh"]
