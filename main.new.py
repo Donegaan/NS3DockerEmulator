@@ -195,7 +195,7 @@ def create():
     #############################
     # First and a half ... we generate the configuration yaml files.
 
-    write_conf(0, numberOfNodes, timeoutStr, 0, 10001, "conf.yml")
+    write_conf(0, numberOfNodes, timeoutStr, 0, 10001, "conf1.yml")
 
     #############################
     # Second, we run the numberOfNodes of containers.
@@ -223,10 +223,11 @@ def create():
         conf_host_path = dir_path + "/conf"
 
         volumes = "-v " + log_host_path + ":/var/log/golang "
-        volumes += "-v " + conf_host_path + ":/app "
+        # volumes += "-v " + conf_host_path + ":/app "
+        volumes += "-v " + conf_host_path + ":/beacon_conf "
 
-        environment_variables = "--env RAFT_PORT=10123 "
-        environment_variables += "--env RAFT_TIMEOUT="+timeoutStr
+        # environment_variables = "--env RAFT_PORT=10123 "
+        # environment_variables += "--env RAFT_TIMEOUT="+timeoutStr
 
         print("VOLUMES: " + volumes)
 
