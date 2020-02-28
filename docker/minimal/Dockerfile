@@ -25,7 +25,7 @@ COPY create_blockchain.sh create_blockchain.sh
 
 RUN chmod a+x create_blockchain.sh
 
-RUN ./create_blockchain.sh
+# RUN ./create_blockchain.sh
 
 CMD ["/bin/bash"]
 
