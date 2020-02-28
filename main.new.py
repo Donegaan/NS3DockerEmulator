@@ -171,7 +171,7 @@ def create():
                       baseContainerNameMin)
 
     r_code = subprocess.call(
-        "cd ns3 && bash update.sh tap-csma-virtual-machine-original.cc", shell=True)
+        "cd ns3 && bash update.sh tap-wifi-virtual-machine-original.cc", shell=True)
     if r_code != 0:
         print("Error copying latest ns3 file")
     else:
