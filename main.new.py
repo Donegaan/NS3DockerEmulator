@@ -171,7 +171,7 @@ def create():
                       baseContainerNameMin)
 
     r_code = subprocess.call(
-        "cd ns3 && bash update.sh tap-csma-virtual-machine.cc", shell=True)
+        "cd ns3 && bash update.sh tap-mesh.cc", shell=True)
     if r_code != 0:
         print("Error copying latest ns3 file")
     else:
@@ -318,8 +318,8 @@ def ns3():
           str(total_emu_time))
 
     tmp = 'cd ~/ns-3-allinone/ns-3-dev && '
-    tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu"'
-    # tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
+    tmp += './waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
+    tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
     ns3_cmd = tmp.format(jobs, numberOfNodesStr,
                          total_emu_time, scenarioSize, nodeSpeed, nodePause)
 

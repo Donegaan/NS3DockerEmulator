@@ -143,27 +143,27 @@ int main(int argc, char *argv[])
   // <Positioning>
   // ++++++++++++++++++++++++++++++++++++
 
-  ObjectFactory pos;
-  pos.SetTypeId("ns3::RandomRectanglePositionAllocator");
-  std::stringstream xAxisMax;
-  xAxisMax << "ns3::UniformRandomVariable[Min=0.0|Max=" << scenarioSizeX << "]";
-  std::stringstream yAxisMax;
-  yAxisMax << "ns3::UniformRandomVariable[Min=0.0|Max=" << scenarioSizeY << "]";
-  pos.Set("X", StringValue(xAxisMax.str()));
-  pos.Set("Y", StringValue(yAxisMax.str()));
-  //  NS_LOG_UNCOND ("Allocation => ns3::RandomRectanglePositionAllocator");
-  Ptr<PositionAllocator> taPositionAlloc = pos.Create()->GetObject<PositionAllocator>();
-
   // ObjectFactory pos;
-  // pos.SetTypeId ("ns3::GridPositionAllocator");
-  // pos.Set ("MinX", DoubleValue ( 0.0 ));
-  // pos.Set ("MinY", DoubleValue ( 0.0 ));
-  // pos.Set ("DeltaX", DoubleValue ( distance ));
-  // pos.Set ("DeltaY", DoubleValue ( distance ));
-  // pos.Set ("GridWidth", UintegerValue ( gridRowSize ));
-  // pos.Set ("LayoutType", StringValue ( "RowFirst" ));
-  // NS_LOG_UNCOND ("Allocation => ns3::GridPositionAllocator");
-  // Ptr<PositionAllocator> taPositionAlloc = pos.Create ()->GetObject<PositionAllocator> ();
+  // pos.SetTypeId("ns3::RandomRectanglePositionAllocator");
+  // std::stringstream xAxisMax;
+  // xAxisMax << "ns3::UniformRandomVariable[Min=0.0|Max=" << scenarioSizeX << "]";
+  // std::stringstream yAxisMax;
+  // yAxisMax << "ns3::UniformRandomVariable[Min=0.0|Max=" << scenarioSizeY << "]";
+  // pos.Set("X", StringValue(xAxisMax.str()));
+  // pos.Set("Y", StringValue(yAxisMax.str()));
+  // //  NS_LOG_UNCOND ("Allocation => ns3::RandomRectanglePositionAllocator");
+  // Ptr<PositionAllocator> taPositionAlloc = pos.Create()->GetObject<PositionAllocator>();
+
+  ObjectFactory pos;
+  pos.SetTypeId("ns3::GridPositionAllocator");
+  pos.Set("MinX", DoubleValue(0.0));
+  pos.Set("MinY", DoubleValue(0.0));
+  pos.Set("DeltaX", DoubleValue(distance));
+  pos.Set("DeltaY", DoubleValue(distance));
+  pos.Set("GridWidth", UintegerValue(gridRowSize));
+  pos.Set("LayoutType", StringValue("RowFirst"));
+  NS_LOG_UNCOND("Allocation => ns3::GridPositionAllocator");
+  Ptr<PositionAllocator> taPositionAlloc = pos.Create()->GetObject<PositionAllocator>();
 
   // ++++++++++++++++++++++++++++++++++++
   // </Positioning>
@@ -173,15 +173,15 @@ int main(int argc, char *argv[])
   // <Mobility>
   // ++++++++++++++++++++++++++++++++++++
 
-  std::stringstream ssSpeed;
-  ssSpeed << "ns3::UniformRandomVariable[Min=0.0|Max=" << nodeSpeed << "]";
-  std::stringstream ssPause;
-  ssPause << "ns3::ConstantRandomVariable[Constant=" << nodePause << "]";
-  //  NS_LOG_UNCOND ("Mobility => ns3::RandomWaypointMobilityModel");
-  mobility.SetMobilityModel("ns3::RandomWaypointMobilityModel",
-                            "Speed", StringValue(ssSpeed.str()),
-                            "Pause", StringValue(ssPause.str()),
-                            "PositionAllocator", PointerValue(taPositionAlloc));
+  // std::stringstream ssSpeed;
+  // ssSpeed << "ns3::UniformRandomVariable[Min=0.0|Max=" << nodeSpeed << "]";
+  // std::stringstream ssPause;
+  // ssPause << "ns3::ConstantRandomVariable[Constant=" << nodePause << "]";
+  // //  NS_LOG_UNCOND ("Mobility => ns3::RandomWaypointMobilityModel");
+  // mobility.SetMobilityModel("ns3::RandomWaypointMobilityModel",
+  //                           "Speed", StringValue(ssSpeed.str()),
+  //                           "Pause", StringValue(ssPause.str()),
+  //                           "PositionAllocator", PointerValue(taPositionAlloc));
 
   // NS_LOG_UNCOND ("Mobility => ns3::ConstantPositionMobilityModel");
   // mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
   //
   //  NS_LOG_UNCOND ("Creating tap bridges");
   TapBridgeHelper tapBridge;
-  tapBridge.SetAttribute("Mode", StringValue("UseLocal"));
+  tapBridge.SetAttribute("Mode", StringValue("UseBridge"));
 
   for (int i = 0; i < NumNodes; i++)
   {
