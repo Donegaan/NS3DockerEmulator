@@ -15,7 +15,9 @@ RUN ldd /go/bin/Beacon | grep -q "not a dynamic executable"
 
 FROM alpine
 
-#RUN apk update && apk add bash
+RUN apk update \
+  && apk upgrade -q \
+  && apk add -q nmap bash
 
 COPY wrapper.sh /wrapper.sh
 RUN chmod +x /wrapper.sh
