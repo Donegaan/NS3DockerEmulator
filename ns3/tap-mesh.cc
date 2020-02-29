@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
   //
   //  NS_LOG_UNCOND ("Creating tap bridges");
   TapBridgeHelper tapBridge;
-  tapBridge.SetAttribute("Mode", StringValue("UseBridge"));
+  tapBridge.SetAttribute("Mode", StringValue("ConfigureLocal"));
 
   for (int i = 0; i < NumNodes; i++)
   {
@@ -226,6 +226,8 @@ int main(int argc, char *argv[])
     tapBridge.SetAttribute("DeviceName", StringValue(tapName.str()));
     tapBridge.Install(nodes.Get(i), devices.Get(i));
   }
+
+  wifiPhy.EnablePcapAll("tap-mesh"); // For pcap tracing
 
   //
   // Run the simulation for TotalTime seconds to give the user time to play around
