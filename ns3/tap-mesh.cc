@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
   //
   //  NS_LOG_UNCOND ("Creating tap bridges");
   TapBridgeHelper tapBridge;
-  tapBridge.SetAttribute("Mode", StringValue("ConfigureLocal"));
+  tapBridge.SetAttribute("Mode", StringValue("UseLocal"));
 
   for (int i = 0; i < NumNodes; i++)
   {
