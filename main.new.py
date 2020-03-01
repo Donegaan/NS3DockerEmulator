@@ -436,10 +436,10 @@ def write_conf(target, nodes, timeout, root, port, filename):
 def destroy():
     print("Destroying ...")
 
-    print("DESTROYING ALL CONTAINERS")
-    r_code = subprocess.call(
-        "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
-    check_return_code_chill(r_code, "Destroying ALL containers")
+    # print("DESTROYING ALL CONTAINERS")
+    # r_code = subprocess.call(
+    #     "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
+    # check_return_code_chill(r_code, "Destroying ALL containers")
 
     for x in range(0, numberOfNodes):
 

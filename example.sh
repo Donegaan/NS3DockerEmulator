@@ -39,4 +39,4 @@ while [  $COUNTER -lt 1 ]; do
 done
 
 # We destroy everything cause we don't need it anymore
-# python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} destroy
+python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} destroy
