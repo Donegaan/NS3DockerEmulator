@@ -360,9 +360,9 @@ def run_emu():
         container_name_list += nameList[x]
         container_name_list += " "
 
-    acc_status = subprocess.call(
-        "docker restart -t 0 %s" % container_name_list, shell=True)
-    check_return_code_chill(acc_status, "Restarting containers")
+    # acc_status = subprocess.call(
+    #     "docker restart -t 0 %s" % container_name_list, shell=True)
+    # check_return_code_chill(acc_status, "Restarting containers")
 
     for x in range(0, numberOfNodes):
         if os.path.exists(pidsDirectory + nameList[x]):
