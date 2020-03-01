@@ -12,7 +12,7 @@ PAUSE=0 # Pause time of the nodes in seconds
 export NS3_HOME=~/ns-3-allinone/ns-3-dev
 
 # We create everything
-python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} create
+# python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} create
 # We run the NS3 simulation
 python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} ns3
 
@@ -39,4 +39,4 @@ while [  $COUNTER -lt 1 ]; do
 done
 
 # We destroy everything cause we don't need it anymore
-python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} destroy
+# python3 ${MAIN_SCRIPT} -n ${NODES} -t ${TIMEEMU} -s ${SIZE} -ns ${SPEED} -np ${PAUSE} destroy
