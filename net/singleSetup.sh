@@ -19,14 +19,16 @@ fi
 
 NAME=$1
 
-brctl addbr br-$NAME
+echo "BUILDING BRIDGE FOR $NAME"
 
-tunctl -t tap-$NAME
+sudo brctl addbr br-$NAME
 
-ifconfig tap-$NAME 0.0.0.0 promisc up
+sudo tunctl -t tap-$NAME
 
-brctl addif br-$NAME tap-$NAME
-ifconfig br-$NAME up
+sudo ifconfig tap-$NAME 0.0.0.0 promisc up
+
+sudo brctl addif br-$NAME tap-$NAME
+sudo ifconfig br-$NAME up
 
 # pushd /proc/sys/net/bridge
 # for f in bridge-nf-*; do echo 0 > $f; done
