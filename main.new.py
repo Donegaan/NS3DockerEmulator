@@ -258,7 +258,6 @@ def create():
     # But in the source you can find more examples in the same dir.
     acc_status = 0
     for x in range(0, numberOfNodes):
-        print("------------------------- AT SINGLE SETUP -------------------------")
         acc_status += subprocess.call("bash net/singleSetup.sh %s" %
                                       (nameList[x]), shell=True)
 

@@ -19,8 +19,6 @@ fi
 
 NAME=$1
 
-echo "------------------------- BUILDING BRIDGE FOR $NAME -------------------------"
-
 sudo brctl addbr br-$NAME
 
 sudo tunctl -t tap-$NAME
