@@ -124,6 +124,8 @@ def main():
         ns3()
     elif operation == "emulation":
         run_emu()
+    elif operation == "create_docker":
+        create_docker()
     else:
         print("Nothing to be done ...")
 
@@ -148,6 +150,13 @@ def check_return_code_chill(rcode, message):
 
     print("Error: %s" % message)
     return
+
+
+def create_docker():
+    r_code = subprocess.call(
+        "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
+    check_return_code(r_code, "Building minimal container %s" %
+                      baseContainerNameMin)
 
 
 ################################################################################
