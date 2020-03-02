@@ -165,10 +165,10 @@ def create():
     # check_return_code(r_code, "Building regular container %s" % baseContainerName0)
 
     # Don't think we need to rebuild container everytime right now.
-    r_code = subprocess.call(
-        "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
-    check_return_code(r_code, "Building minimal container %s" %
-                      baseContainerNameMin)
+    # r_code = subprocess.call(
+    #     "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
+    # check_return_code(r_code, "Building minimal container %s" %
+    #                   baseContainerNameMin)
 
     r_code = subprocess.call(
         "cd ns3 && bash update.sh tap-csma-virtual-machine.cc", shell=True)
