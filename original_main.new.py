@@ -164,7 +164,6 @@ def create():
     # r_code = subprocess.call("docker build -t %s docker/mybase/." % baseContainerName0, shell=True)
     # check_return_code(r_code, "Building regular container %s" % baseContainerName0)
 
-    # Don't think we need to rebuild container everytime right now.
     r_code = subprocess.call(
         "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
     check_return_code(r_code, "Building minimal container %s" %
