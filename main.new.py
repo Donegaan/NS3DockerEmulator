@@ -458,14 +458,14 @@ def destroy():
         if os.path.exists(pidsDirectory + nameList[x]):
             with open(pidsDirectory + nameList[x], "rt") as in_file:
                 text = in_file.read()
-                r_code = subprocess.call(
-                    "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
-                check_return_code_chill(
-                    r_code, "Destroying docker bridges %s" % (nameList[x]))
+        #         r_code = subprocess.call(
+        #             "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
+        #         check_return_code_chill(
+        #             r_code, "Destroying docker bridges %s" % (nameList[x]))
 
-        r_code = subprocess.call("rm -rf %s" %
-                                 (pidsDirectory + nameList[x]), shell=True)
-        check_return_code_chill(r_code, "Removing pids directory")
+        # r_code = subprocess.call("rm -rf %s" %
+        #                          (pidsDirectory + nameList[x]), shell=True)
+        # check_return_code_chill(r_code, "Removing pids directory")
 
     return
 
