@@ -72,6 +72,13 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("TapCsmaVirtualMachineExample");
 
+void StartFlow(Ipv4Address address, TapBridge tapBridge)
+{
+  NS_LOG_UNCOND("Starting flow at time " << Simulator::Now().GetSeconds());
+  Ptr<Packet> pkt = Create<Packet>(8);
+  tapBridge.Send(pkt, address, 0x0800);
+}
+
 int main(int argc, char *argv[])
 {
   bool AnimationOn = false;
@@ -166,11 +173,4 @@ int main(int argc, char *argv[])
   Simulator::Stop(Seconds(TotalTime));
   Simulator::Run();
   Simulator::Destroy();
-}
-
-void StartFlow(Ipv4Address address, TapBridge tapBridge)
-{
-  NS_LOG_UNCOND("Starting flow at time " << Simulator::Now().GetSeconds());
-  Ptr<Packet> pkt = Create<Packet>(8);
-  tapBridge.Send(pkt, address, 0x0800);
 }
