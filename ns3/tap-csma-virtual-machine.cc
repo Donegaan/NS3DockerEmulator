@@ -65,7 +65,7 @@
 #include "ns3/network-module.h"
 #include "ns3/csma-module.h"
 #include "ns3/tap-bridge-module.h"
-
+#include "ns3/packet.h"
 #include "ns3/netanim-module.h"
 
 using namespace ns3;
@@ -154,6 +154,11 @@ int main(int argc, char *argv[])
     anim.EnableWifiPhyCounters(Seconds(0), Seconds(TotalTime)); //Optional
   }
 
+  // ...and schedule the sending "Application"; This is similar to what an
+  // ns3::Application subclass would do internally.
+  Simulator::ScheduleNow(&StartFlow, tapBridge.GetAddress(),
+                         tapBridge);
+
   //
   // Run the simulation for TotalTime seconds to give the user time to play around
   //
@@ -161,4 +166,11 @@ int main(int argc, char *argv[])
   Simulator::Stop(Seconds(TotalTime));
   Simulator::Run();
   Simulator::Destroy();
+}
+
+void StartFlow(Ipv4Address address, TapBridge tapBridge)
+{
+  NS_LOG_UNCOND("Starting flow at time " << Simulator::Now().GetSeconds());
+  Ptr<Packet> pkt = Create<Packet>(8);
+  tapBridge.Send(pkt, address)
 }
