@@ -163,7 +163,10 @@ int main(int argc, char *argv[])
 
   // ...and schedule the sending "Application"; This is similar to what an
   // ns3::Application subclass would do internally.
-  Simulator::ScheduleNow(&StartFlow, tapBridge.GetAddress(),
+  Ptr<Node> node = myNodes.Get(0);                      // Get pointer to ith node in container
+  Ptr<Ipv4> ipv4 = node->GetObject<Ipv4>();             // Get Ipv4 instance of the node
+  Ipv4Address addr = ipv4->GetAddress(1, 0).GetLocal(); // Get Ipv4InterfaceAddress of xth interface.
+  Simulator::ScheduleNow(&StartFlow, addr,
                          tapBridge);
 
   //
