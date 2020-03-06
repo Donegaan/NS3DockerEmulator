@@ -172,5 +172,5 @@ void StartFlow(Ipv4Address address, TapBridge tapBridge)
 {
   NS_LOG_UNCOND("Starting flow at time " << Simulator::Now().GetSeconds());
   Ptr<Packet> pkt = Create<Packet>(8);
-  tapBridge.Send(pkt, address)
+  tapBridge.Send(pkt, address, 0x0800)
 }
