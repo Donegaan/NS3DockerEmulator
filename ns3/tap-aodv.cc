@@ -26,7 +26,7 @@
 // #include "ns3/node-module.h"
 // #include "ns3/helper-module.h"
 #include "ns3/mobility-module.h"
-#include "ns3/contrib-module.h"
+// #include "ns3/contrib-module.h"
 #include "ns3/wifi-module.h"
 #include "ns3/v4ping-helper.h"
 #include <iostream>
