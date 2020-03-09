@@ -29,6 +29,7 @@
 // #include "ns3/contrib-module.h"
 #include "ns3/wifi-module.h"
 #include "ns3/v4ping-helper.h"
+#include "ns3/tap-bridge-module.h"
 #include <iostream>
 #include <cmath>
 
