@@ -161,13 +161,11 @@ int main(int argc, char *argv[])
     anim.EnableWifiPhyCounters(Seconds(0), Seconds(TotalTime)); //Optional
   }
 
-  // ...and schedule the sending "Application"; This is similar to what an
-  // ns3::Application subclass would do internally.
-  Ptr<Node> node = nodes.Get(0);                        // Get pointer to ith node in container
-  Ptr<Ipv4> ipv4 = node->GetObject<Ipv4>();             // Get Ipv4 instance of the node
-  Ipv4Address addr = ipv4->GetAddress(1, 0).GetLocal(); // Get Ipv4InterfaceAddress of xth interface.
-  Simulator::ScheduleNow(&StartFlow, addr,
-                         tapBridge);
+  // Ptr<Node> node = nodes.Get(0);                        // Get pointer to ith node in container
+  // Ptr<Ipv4> ipv4 = node->GetObject<Ipv4>();             // Get Ipv4 instance of the node
+  // Ipv4Address addr = ipv4->GetAddress(1, 0).GetLocal(); // Get Ipv4InterfaceAddress of xth interface.
+  // Simulator::ScheduleNow(&StartFlow, addr,
+  //                        tapBridge);
 
   //
   // Run the simulation for TotalTime seconds to give the user time to play around
