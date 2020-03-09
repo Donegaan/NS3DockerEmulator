@@ -30,6 +30,7 @@
 #include "ns3/wifi-module.h"
 #include "ns3/v4ping-helper.h"
 #include "ns3/tap-bridge-module.h"
+#include "ns3/ipv4-interface-container.h"
 #include <iostream>
 #include <cmath>
 
