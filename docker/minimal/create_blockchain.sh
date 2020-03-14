@@ -42,6 +42,8 @@ if [ ! -d /root/.multichain/$CHAINNAME ]; then
     sed -i "s/^chain-name.*/chain-name = $CHAINNAME/" ~/.multichain/$CHAINNAME/params.dat
     sed -i "s/^chain-description.*/chain-description = MultiChain $CHAINNAME/" ~/.multichain/$CHAINNAME/params.dat
     sed -i "s/^anyone-can-connect.*/anyone-can-connect = true/" ~/.multichain/$CHAINNAME/params.dat
+    sed -i "s/^anyone-can-create.*/anyone-can-create = true/" ~/.multichain/$CHAINNAME/params.dat
+    sed -i "s/^anyone-can-send.*/anyone-can-send = true/" ~/.multichain/$CHAINNAME/params.dat
 
     # Loop over all variables that start with PARAM_
     #   PARAM_BLOCKTIME='target-block-time|40';
@@ -71,3 +73,7 @@ cp ~/.multichain/$CHAINNAME/multichain.conf ~/.multichain/multichain.conf
 # multichaind -txindex -shrinkdebugfilesize -printtoconsole $CHAINNAME
 printf "Starting blockchain"
 multichaind $CHAINNAME -daemon
+
+multichain-cli $CHAINNAME
+
+create stream stream1 '{"restrict":"write"}'
