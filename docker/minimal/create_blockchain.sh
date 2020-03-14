@@ -24,7 +24,7 @@ fi
 
 # Fallback for the $RPC_PASSWORD variable
 if [ -z "$RPC_PASSWORD" ]; then
-    RPC_PASSWORD="this-is-insecure-change-it"
+    RPC_PASSWORD="this-is-insecure-change-it-123"
 fi
 
 # Fallback for the $RPC_ALLOW_IP variable
@@ -44,7 +44,7 @@ if [ ! -d /root/.multichain/$CHAINNAME ]; then
 
     # Loop over all variables that start with PARAM_
     #   PARAM_BLOCKTIME='target-block-time|40';
-    #   PARAM_CONNECT='anyone-can-connect|true';
+      PARAM_CONNECT='anyone-can-connect|true';
     ( set -o posix ; set ) | sed -n '/^PARAM_/p' | while read PARAM; do
         IFS='=' read -ra KV <<< "$PARAM"
         IFS='|' read -ra KV <<< "${!KV[0]}"

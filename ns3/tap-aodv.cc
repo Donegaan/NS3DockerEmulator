@@ -22,6 +22,8 @@
 
 #include "ns3/aodv-module.h"
 #include "ns3/core-module.h"
+#include "ns3/ipv4-address-helper.h"
+#include "ns3/network-module.h"
 // #include "ns3/common-module.h"
 // #include "ns3/node-module.h"
 // #include "ns3/helper-module.h"
