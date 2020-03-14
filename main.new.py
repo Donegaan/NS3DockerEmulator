@@ -239,7 +239,7 @@ def create():
 
         print("VOLUMES: " + volumes)
 
-        ip = "10.12.0."+x
+        ip = "10.12.0."+str(x)
 
         acc_status += subprocess.call(
             "docker run --privileged --ip" + ip + "--entrypoint \"/bin/sh\" -d -t -i --net=none %s --name %s %s" % (
