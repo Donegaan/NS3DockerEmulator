@@ -239,10 +239,12 @@ def create():
 
         print("VOLUMES: " + volumes)
 
-        # acc_status += subprocess.call(
-        #     "docker run --privileged --entrypoint \"/bin/sh\" -d -t -i --net=none %s --name %s %s" % (
-        #         volumes, nameList[x], baseContainerNameMin),
-        #     shell=True)
+        ip = "10.12.0."+x
+
+        acc_status += subprocess.call(
+            "docker run --privileged --ip" + ip + "--entrypoint \"/bin/sh\" -d -t -i --net=none %s --name %s %s" % (
+                volumes, nameList[x], baseContainerNameMin),
+            shell=True)
 
     # If something went wrong running the docker containers, we panic and exit
     # check_return_code(acc_status, "Running docker containers")

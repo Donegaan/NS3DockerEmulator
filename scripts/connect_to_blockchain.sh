@@ -1,2 +1,2 @@
 # Address is ip:port
-multichaind $name@$address:7447
+multichaind $DockerChain@$address:7447 -daemon
