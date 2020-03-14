@@ -22,6 +22,7 @@ RUN apk update \
     && rm -Rf multichain*
 
 COPY create_blockchain.sh create_blockchain.sh
+COPY test.py test.py
 
 RUN chmod a+x create_blockchain.sh
 
