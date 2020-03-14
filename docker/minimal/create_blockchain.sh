@@ -41,10 +41,11 @@ if [ ! -d /root/.multichain/$CHAINNAME ]; then
     sed -i "s/^default-rpc-port.*/default-rpc-port = $RPC_PORT/" ~/.multichain/$CHAINNAME/params.dat
     sed -i "s/^chain-name.*/chain-name = $CHAINNAME/" ~/.multichain/$CHAINNAME/params.dat
     sed -i "s/^chain-description.*/chain-description = MultiChain $CHAINNAME/" ~/.multichain/$CHAINNAME/params.dat
+    sed -i "s/^anyone-can-connect.*/anyone-can-connect = true/" ~/.multichain/$CHAINNAME/params.dat
 
     # Loop over all variables that start with PARAM_
     #   PARAM_BLOCKTIME='target-block-time|40';
-      PARAM_CONNECT='anyone-can-connect|true';
+    #   PARAM_CONNECT='anyone-can-connect|true';
     ( set -o posix ; set ) | sed -n '/^PARAM_/p' | while read PARAM; do
         IFS='=' read -ra KV <<< "$PARAM"
         IFS='|' read -ra KV <<< "${!KV[0]}"
