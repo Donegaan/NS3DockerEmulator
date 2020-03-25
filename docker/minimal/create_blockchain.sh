@@ -74,6 +74,6 @@ cp ~/.multichain/$CHAINNAME/multichain.conf ~/.multichain/multichain.conf
 printf "Starting blockchain"
 multichaind $CHAINNAME -daemon
 
-multichain-cli $CHAINNAME
+# multichain-cli $CHAINNAME
 
-create stream stream1 '{"restrict":"write"}'
+# create stream stream1 '{"restrict":"write"}'
