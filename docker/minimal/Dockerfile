@@ -10,7 +10,9 @@ ENV MULTICHAIN_VERSION 2.0.5
 
 RUN apk update \
     && apk upgrade -q \
-    && apk add -q wget curl python nmap bash \
+    && apk add -q wget curl python3 nmap bash py3-pip3 \
+    && pip3 install --upgrade pip3 \
+    && pip3 install savoir
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp \
     && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
