@@ -10,9 +10,7 @@ ENV MULTICHAIN_VERSION 2.0.5
 
 RUN apk update \
     && apk upgrade -q \
-    && apk add -q wget curl python3 nmap bash python3-pip \
-    && pip3 install --upgrade pip3 \
-    && pip3 install savoir \
+    && apk add -q wget curl nmap bash \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp \
     && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
@@ -22,6 +20,18 @@ RUN apk update \
     && mkdir /root/.multichain \
     && cd /tmp \
     && rm -Rf multichain*
+
+RUN echo "**** install Python ****" && \
+    apk add --no-cache python3 && \
+    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
+    \
+    echo "**** install pip ****" && \
+    python3 -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    pip3 install --no-cache --upgrade pip setuptools wheel && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
+
+RUN pip3 install savoir
 
 COPY create_blockchain.sh create_blockchain.sh
 COPY test.py test.py
