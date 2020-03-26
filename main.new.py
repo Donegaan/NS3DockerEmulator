@@ -11,6 +11,8 @@ import yaml
 __author__ = 'chepeftw'
 
 numberOfNodesStr = '20'
+numberOfProdNodesStr = '10'
+numberOfConsumerNodesStr = '10'
 emulationTimeStr = '600'
 scenarioSize = '300'
 noBuildCacheDocker = ''
@@ -26,6 +28,7 @@ jobs = 1
 nameList = []
 
 baseContainerNameMin = 'myminimalbox'
+baseConsumerContainerNameMin = 'myconsumerbox'
 
 pidsDirectory = "./var/pid/"
 logsDirectory = "./var/log/"
@@ -33,6 +36,8 @@ logsDirectory = "./var/log/"
 
 def main():
     global numberOfNodesStr, \
+        numberOfProdNodesStr, \
+        numberOfConsumerNodesStr, \
         emulationTimeStr, \
         timeoutStr, \
         nodeSpeed, \
@@ -52,8 +57,14 @@ def main():
     parser.add_argument("operationStr", action="store",
                         help="The name of the operation to perform, options: full, create, destroy")
 
-    parser.add_argument("-n", "--number", action="store",
-                        help="The number of nodes to simulate")
+    # parser.add_argument("-n", "--number", action="store",
+    #                     help="The number of nodes to simulate")
+
+    parser.add_argument("-nprod", "--numberprod", action="store",
+                        help="The number of prioducer nodes to simulate")
+
+    parser.add_argument("-ncon", "--numbercon", action="store",
+                        help="The number of consumer nodes to simulate")
 
     parser.add_argument("-t", "--time", action="store",
                         help="The time in seconds of NS3 simulation")
@@ -80,8 +91,12 @@ def main():
                         version='%(prog)s 2.0')
     args = parser.parse_args()
 
-    if args.number:
-        numberOfNodesStr = args.number
+    # if args.number:
+    #     numberOfNodesStr = args.number
+    if args.numberprod:
+        numberOfProdNodesStr = args.numberprod
+    if args.numbercon:
+        numberOfConsumerNodesStr = args.numbercon
     if args.time:
         emulationTimeStr = args.time
     if args.timeout:
@@ -100,7 +115,9 @@ def main():
     operation = args.operationStr
 
     # Display input and output file name passed as the args
-    print("Number of nodes : %s" % numberOfNodesStr)
+    # print("Number of nodes : %s" % numberOfNodesStr)
+    print("Number of producer nodes : %s" % numberOfProdNodesStr)
+    print("Number of consumer nodes : %s" % numberOfConsumerNodesStr)
     print("Emulation time : %s" % emulationTimeStr)
     print("Operation : %s" % operation)
     print("Timeout : %s" % timeoutStr)
@@ -109,7 +126,7 @@ def main():
     print("Simulation Count : %s" % simulationCount)
     print("Scenario Size : %s x %s" % (scenarioSize, scenarioSize))
 
-    numberOfNodes = int(numberOfNodesStr)
+    numberOfNodes = int(numberOfConsumerNodesStr) + int(numberOfProdNodesStr)
 
     base_name = "emu"
 
@@ -155,8 +172,13 @@ def check_return_code_chill(rcode, message):
 def create_docker():
     r_code = subprocess.call(
         "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
-    check_return_code(r_code, "Building minimal container %s" %
+    check_return_code(r_code, "Building minimal image %s" %
                       baseContainerNameMin)
+
+    r_code = subprocess.call(
+        "docker build -t %s docker/consumer/." % baseConsumerContainerNameMin, shell=True)
+    check_return_code(r_code, "Building consumer image %s" %
+                      baseConsumerContainerNameMin)
 
 
 ################################################################################
@@ -223,7 +245,7 @@ def create():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
     acc_status = 0
-    for x in range(0, numberOfNodes):
+    for x in range(0, numberOfProdNodesStr):  # Run containers for each producer
         if not os.path.exists(logsDirectory + nameList[x]):
             os.makedirs(logsDirectory + nameList[x])
 
@@ -244,6 +266,29 @@ def create():
         acc_status += subprocess.call(
             "docker run --privileged --entrypoint \"/bin/sh\" -d -t -i --net=none %s --name %s %s" % (
                 volumes, nameList[x], baseContainerNameMin),
+            shell=True)
+
+    for x in range(numberOfProdNodesStr, numberOfNodes):  # Run containers for each consumer
+        if not os.path.exists(logsDirectory + nameList[x]):
+            os.makedirs(logsDirectory + nameList[x])
+
+        # "." are not allowed in the -v of docker and it just work with absolute paths
+        log_host_path = dir_path + logsDirectory[1:] + nameList[x]
+        conf_host_path = dir_path + "/conf"
+
+        volumes = "-v " + log_host_path + ":/var/log/golang "
+        volumes += "-v " + conf_host_path + ":/app "
+
+        environment_variables = "--env RAFT_PORT=10123 "
+        environment_variables += "--env RAFT_TIMEOUT="+timeoutStr
+
+        print("VOLUMES: " + volumes)
+
+        ip = "10.12.0."+str(x)
+
+        acc_status += subprocess.call(
+            "docker run --privileged --entrypoint \"/bin/sh\" -d -t -i --net=none %s --name %s %s" % (
+                volumes, nameList[x], baseConsumerContainerNameMin),
             shell=True)
 
     # If something went wrong running the docker containers, we panic and exit
