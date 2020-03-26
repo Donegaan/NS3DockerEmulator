@@ -24,6 +24,8 @@ nodePause = '1'
 simulationCount = 0
 
 numberOfNodes = 0
+numberOfProdNodes = 0
+numberOfConsumerNodes = 0
 jobs = 1
 nameList = []
 
@@ -37,7 +39,9 @@ logsDirectory = "./var/log/"
 def main():
     global numberOfNodesStr, \
         numberOfProdNodesStr, \
+        numberOfProdNodes, \
         numberOfConsumerNodesStr, \
+        numberOfConsumerNodes, \
         emulationTimeStr, \
         timeoutStr, \
         nodeSpeed, \
@@ -249,7 +253,7 @@ def create():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
     acc_status = 0
-    for x in range(0, numberOfProdNodesStr):  # Run containers for each producer
+    for x in range(0, numberOfProdNodes):  # Run containers for each producer
         if not os.path.exists(logsDirectory + nameList[x]):
             os.makedirs(logsDirectory + nameList[x])
 
@@ -272,7 +276,7 @@ def create():
                 volumes, nameList[x], baseContainerNameMin),
             shell=True)
 
-    for x in range(numberOfProdNodesStr, numberOfNodes):  # Run containers for each consumer
+    for x in range(numberOfProdNodes, numberOfNodes):  # Run containers for each consumer
         if not os.path.exists(logsDirectory + nameList[x]):
             os.makedirs(logsDirectory + nameList[x])
 
