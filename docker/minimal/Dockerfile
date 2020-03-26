@@ -31,7 +31,7 @@ RUN echo "**** install Python ****" && \
     pip3 install --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 
-RUN pip3 install savoir
+RUN pip3 install savoir mcrpc
 
 COPY create_blockchain.sh create_blockchain.sh
 COPY start_blockchain.sh start_blockchain.sh
