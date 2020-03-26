@@ -6,4 +6,4 @@ rpcport = '8000'
 chainname = 'DockerChain'
 
 api = Savoir(rpcuser, rpcpasswd, rpchost, rpcport, chainname)
-api.getinfo()
+print(api.getinfo())

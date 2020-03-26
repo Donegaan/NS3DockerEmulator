@@ -34,11 +34,13 @@ RUN echo "**** install Python ****" && \
 RUN pip3 install savoir
 
 COPY create_blockchain.sh create_blockchain.sh
+COPY start_blockchain.sh start_blockchain.sh
 COPY test.py test.py
 
 RUN chmod a+x create_blockchain.sh
+RUN chmod a+x start_blockchain.sh
 
-# RUN ./create_blockchain.sh
+RUN ./create_blockchain.sh
 
 CMD ["/bin/bash"]
 
