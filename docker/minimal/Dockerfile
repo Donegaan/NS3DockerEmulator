@@ -35,8 +35,9 @@ RUN pip3 install savoir
 
 COPY create_blockchain.sh create_blockchain.sh
 COPY start_blockchain.sh start_blockchain.sh
-COPY connect_to_blockchain.sh
+COPY connect_to_blockchain.sh connect_to_blockchain.sh
 COPY test.py test.py
+COPY test2.py test2.py
 
 RUN chmod a+x create_blockchain.sh
 RUN chmod a+x start_blockchain.sh
