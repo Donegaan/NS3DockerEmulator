@@ -41,7 +41,6 @@ COPY test2.py test2.py
 RUN chmod a+x create_blockchain.sh start_blockchain.sh connect_to_blockchain.sh
 
 RUN ./create_blockchain.sh
-RUN ./connect_to_blockchain.sh
 
 CMD ["/bin/bash"]
 
