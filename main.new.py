@@ -115,7 +115,6 @@ def main():
     operation = args.operationStr
 
     # Display input and output file name passed as the args
-    # print("Number of nodes : %s" % numberOfNodesStr)
     print("Number of producer nodes : %s" % numberOfProdNodesStr)
     print("Number of consumer nodes : %s" % numberOfConsumerNodesStr)
     print("Emulation time : %s" % emulationTimeStr)
@@ -126,7 +125,12 @@ def main():
     print("Simulation Count : %s" % simulationCount)
     print("Scenario Size : %s x %s" % (scenarioSize, scenarioSize))
 
-    numberOfNodes = int(numberOfConsumerNodesStr) + int(numberOfProdNodesStr)
+    numberOfProdNodes = int(numberOfProdNodesStr)
+    numberOfConsumerNodes = int(numberOfConsumerNodesStr)
+    numberOfNodes = numberOfConsumerNodes + numberOfProdNodes
+    numberOfNodesStr = str(numberOfNodes)
+
+    print("Number of nodes : %s" % numberOfNodesStr)
 
     base_name = "emu"
 
