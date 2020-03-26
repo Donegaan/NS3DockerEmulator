@@ -35,7 +35,7 @@ RUN pip3 install savoir mcrpc
 
 COPY create_blockchain.sh create_blockchain.sh
 COPY start_blockchain.sh start_blockchain.sh
-COPY ../connect_to_blockchain.sh connect_to_blockchain.sh
+COPY connect_to_blockchain.sh connect_to_blockchain.sh
 COPY test2.py test2.py
 
 RUN chmod a+x create_blockchain.sh
