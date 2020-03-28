@@ -36,7 +36,7 @@ RUN echo "**** install Python ****" && \
 RUN pip3 install mcrpc
 
 COPY connect_to_blockchain.sh connect_to_blockchain.sh
-COPY test2.py test2.py
+COPY request_objects.py request_objects.py
 
 RUN chmod a+x connect_to_blockchain.sh
 

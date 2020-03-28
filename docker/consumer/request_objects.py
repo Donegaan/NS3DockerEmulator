@@ -8,11 +8,8 @@ stream_name = 'stream1'
 
 client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 
-client.create('stream', stream_name, True)
-
 client.subscribe(stream_name)
 
-client.publish(stream_name, 'key1',
-               {"json": {"name": "Jane Smith", "city": "Paris"}})
+# Request stream objects
 
-client.liststreamitems(stream_name)
+client.getstreamitem(stream_name, )

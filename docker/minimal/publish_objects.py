@@ -8,9 +8,11 @@ stream_name = 'stream1'
 
 client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 
+# Will only create one stream with the same name so can leave it in if multiple producers
+# There will be errors, fine if it doesn't stop emulation execution
 client.create('stream', stream_name, True)
 
-client.subscribe(stream_name)
+#  publish objects for duration of emulation
 
 client.publish(stream_name, 'key1',
                {"json": {"name": "Jane Smith", "city": "Paris"}})
