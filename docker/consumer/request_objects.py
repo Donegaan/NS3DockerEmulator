@@ -11,5 +11,6 @@ client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 client.subscribe(stream_name)
 
 # Request stream objects
+client.liststreamitems(stream_name)
 
 client.getstreamitem(stream_name, )

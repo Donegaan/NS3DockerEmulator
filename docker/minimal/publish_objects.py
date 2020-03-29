@@ -16,5 +16,3 @@ client.create('stream', stream_name, True)
 
 client.publish(stream_name, 'key1',
                {"json": {"name": "Jane Smith", "city": "Paris"}})
-
-client.liststreamitems(stream_name)
