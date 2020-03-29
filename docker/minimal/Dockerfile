@@ -32,6 +32,5 @@
 # # docker run hello-world-multi-stage
 # # docker image ls hello-world-multi-stage
 
-FROM scratch
-ADD alpine-minirootfs-3.11.5-x86_64.tar.gz /
+FROM alpine
 CMD ["/bin/sh"]
