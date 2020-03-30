@@ -62,6 +62,9 @@ int main(int argc, char *argv[])
 
   std::string TapBaseName = "emu";
 
+  /// Addresses of interfaces:
+  Ipv4InterfaceContainer interfaces;
+
   CommandLine cmd;
   cmd.AddValue("NumNodes", "Number of nodes/devices", NumNodes);
   cmd.AddValue("TotalTime", "Total simulation time", TotalTime);
