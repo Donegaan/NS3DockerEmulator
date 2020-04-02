@@ -174,7 +174,7 @@ def create():
     print("--------------------------------------------------------------------------")
 
     r_code = subprocess.call(
-        "cd ns3 && bash update.sh tap-csma-virtual-machine.cc", shell=True)
+        "cd ns3 && bash update.sh tap-wifi-virtual-machine.cc", shell=True)
     if r_code != 0:
         print("Error copying latest ns3 file")
     else:
@@ -330,8 +330,8 @@ def ns3():
           str(total_emu_time))
 
     # ns3_cmd = 'cd $NS3_HOME && ./waf --run scratch/tap-vm'
-    tmp = 'cd $NS3_HOME && ./waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu"'
-    # tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
+    tmp = 'cd $NS3_HOME && ./waf -j {0} --run "scratch/tap-vm --NumNodes={1} --TotalTime={2} --TapBaseName=emu '
+    tmp += '--SizeX={3} --SizeY={3} --MobilitySpeed={4} --MobilityPause={5}"'
     ns3_cmd = tmp.format(jobs, numberOfNodesStr,
                          total_emu_time, scenarioSize, nodeSpeed, nodePause)
 
