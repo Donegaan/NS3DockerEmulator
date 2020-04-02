@@ -238,7 +238,7 @@ int main(int argc, char *argv[])
   internetStack.Install(nodes);
   Ipv4AddressHelper address;
   address.SetBase("10.1.1.0", "255.255.255.0");
-  interfaces = address.Assign(meshDevices);
+  interfaces = address.Assign(devices);
 
   Simulator::Stop(Seconds(TotalTime));
   Simulator::Run();
