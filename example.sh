@@ -35,7 +35,7 @@ while [  $COUNTER -lt 1 ]; do
     # python3 statscollector2.py bla bla bla
     ####################################################################
 
-        let COUNTER=COUNTER+1
+    let COUNTER=COUNTER+1
 done
 
 # We destroy everything cause we don't need it anymore
