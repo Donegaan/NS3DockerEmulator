@@ -26,7 +26,9 @@ RUN chmod +x /wrapper.sh
 COPY --from=builder /go/bin/Beacon /beacon
 
 #CMD ["bash", "/wrapper.sh"]
-CMD /wrapper.sh
+RUN ./wrapper.sh
+
+CMD ["/bin/bash"]
 
 # docker build -t hello-world-multi-stage .
 # docker run hello-world-multi-stage
