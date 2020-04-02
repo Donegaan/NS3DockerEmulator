@@ -46,30 +46,6 @@ using namespace ns3;
 
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
-void InstallInternetStack()
-{
-  InternetStackHelper internetStack;
-  internetStack.Install(nodes);
-  Ipv4AddressHelper address;
-  address.SetBase("10.1.1.0", "255.255.255.0");
-  interfaces = address.Assign(meshDevices);
-}
-void InstallApplication()
-{
-  UdpEchoServerHelper echoServer(9);
-  ApplicationContainer serverApps = echoServer.Install(nodes.Get(0));
-  serverApps.Start(Seconds(0.0));
-  serverApps.Stop(Seconds(m_totalTime));
-  UdpEchoClientHelper echoClient(interfaces.GetAddress(0), 9);
-  echoClient.SetAttribute("MaxPackets",
-                          UintegerValue((uint32_t)(m_totalTime * (1 / m_packetInterval))));
-  echoClient.SetAttribute("Interval", TimeValue(Seconds(m_packetInterval)));
-  echoClient.SetAttribute("PacketSize", UintegerValue(m_packetSize));
-  ApplicationContainer clientApps = echoClient.Install(nodes.Get(m_xSize * m_ySize - 1));
-  clientApps.Start(Seconds(0.0));
-  clientApps.Stop(Seconds(m_totalTime));
-}
-
 int main(int argc, char *argv[])
 {
   int NumNodes = 10;
@@ -258,8 +234,11 @@ int main(int argc, char *argv[])
   //
   //  NS_LOG_UNCOND ("Running simulation in wifi mode");
 
-  InstallInternetStack();
-  // InstallApplication();
+  InternetStackHelper internetStack;
+  internetStack.Install(nodes);
+  Ipv4AddressHelper address;
+  address.SetBase("10.1.1.0", "255.255.255.0");
+  interfaces = address.Assign(meshDevices);
 
   Simulator::Stop(Seconds(TotalTime));
   Simulator::Run();
