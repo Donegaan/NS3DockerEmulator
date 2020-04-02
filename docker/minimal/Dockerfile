@@ -26,7 +26,7 @@ RUN chmod +x /wrapper.sh
 COPY --from=builder /go/bin/Beacon /beacon
 
 #CMD ["bash", "/wrapper.sh"]
-RUN ./wrapper.sh
+# CMD /wrapper.sh
 
 CMD ["/bin/bash"]
 
