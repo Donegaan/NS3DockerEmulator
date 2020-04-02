@@ -46,7 +46,7 @@ using namespace ns3;
 
 //NS_LOG_COMPONENT_DEFINE ("TapWifiVirtualMachineExample");
 
-void MeshTest::InstallInternetStack()
+void InstallInternetStack()
 {
   InternetStackHelper internetStack;
   internetStack.Install(nodes);
@@ -54,7 +54,7 @@ void MeshTest::InstallInternetStack()
   address.SetBase("10.1.1.0", "255.255.255.0");
   interfaces = address.Assign(meshDevices);
 }
-void MeshTest::InstallApplication()
+void InstallApplication()
 {
   UdpEchoServerHelper echoServer(9);
   ApplicationContainer serverApps = echoServer.Install(nodes.Get(0));
