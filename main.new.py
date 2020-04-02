@@ -240,8 +240,9 @@ def create():
 
         print("VOLUMES: " + volumes)
 
+        # --entrypoint \"/bin/sh\"
         acc_status += subprocess.call(
-            "docker run --privileged --entrypoint \"/bin/sh\" -dit --net=none %s %s --name %s %s" % (
+            "docker run --privileged -dit --net=none %s %s --name %s %s" % (
                 volumes, environment_variables, nameList[x], baseContainerNameMin),
             shell=True)
 
