@@ -1,4 +1,5 @@
 import mcrpc
+import time
 
 rpcuser = 'multichainrpc'
 rpcpasswd = 'this-is-insecure-change-it-123'
@@ -13,4 +14,6 @@ client.subscribe(stream_name)
 # Request stream objects
 client.liststreamitems(stream_name)
 
-client.getstreamitem(stream_name, )
+for x in range(150):
+    # client.getstreamitem(stream_name, )
+    time.sleep(2)

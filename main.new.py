@@ -460,6 +460,12 @@ def run_emu():
         acc_status += subprocess.call("docker exec -d %s bash connect_to_blockchain.sh" %  # Connect nodes to created blockchain
                                       (nameList[x]), shell=True)
 
+        acc_status += subprocess.call("docker exec -d %s python3 publish_objects.py " %  # Connect nodes to created blockchain
+                                      (nameList[x]), shell=True)
+
+        acc_status += subprocess.call("docker exec -d %s python3 request_objects.py " %  # Connect nodes to created blockchain
+                                      (nameList[x]), shell=True)
+
     check_return_code_chill(
         acc_status, "Cleaning old netns and setting up new")
 

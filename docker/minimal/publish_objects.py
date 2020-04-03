@@ -1,4 +1,5 @@
 import mcrpc
+import time
 
 rpcuser = 'multichainrpc'
 rpcpasswd = 'this-is-insecure-change-it-123'
@@ -14,5 +15,7 @@ client.create('stream', stream_name, True)
 
 #  publish objects for duration of emulation
 
-client.publish(stream_name, 'key1',
-               {"json": {"name": "Jane Smith", "city": "Paris"}})
+for x in range(300):
+    client.publish(stream_name, 'key'+str(x),
+                   {"json": {"name": "Jane Smith", "city": "Paris"}})
+    time.sleep(1)
