@@ -1,27 +1,44 @@
-FROM golang:1.9 as builder
-
-# Building Beacon simple app
-WORKDIR /go/src/github.com/chepeftw
-RUN git clone https://github.com/chepeftw/Beacon.git
-WORKDIR /go/src/github.com/chepeftw/Beacon
-RUN go get && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"'
-
-RUN ldd /go/bin/Beacon | grep -q "not a dynamic executable"
-
-
-############################################################
-# Run stage
-############################################################
-
 FROM alpine
+#  Consumer Dockerfile
+
+# LABEL vendor="Chainstack"
+
+# ENV DEBIAN_FRONTEND noninteractive
+# ENV LANG en_US.UTF-8
+# ENV LC_ALL C.UTF-8
+
+ENV MULTICHAIN_VERSION 2.0.5
 
 RUN apk update \
-  && apk upgrade -q \
-  && apk add -q nmap bash
+    && apk upgrade -q \
+    && apk add -q wget curl nmap bash \
+    && rm -rf /var/lib/apt/lists/* \
+    && cd /tmp \
+    && wget -nv https://www.multichain.com/download/multichain-${MULTICHAIN_VERSION}.tar.gz \
+    && tar -xvzf multichain-${MULTICHAIN_VERSION}.tar.gz \
+    && cd multichain-${MULTICHAIN_VERSION} \
+    && mv multichaind multichain-cli multichain-util /usr/local/bin \
+    && mkdir /root/.multichain \
+    && cd /tmp \
+    && rm -Rf multichain*
 
-COPY wrapper.sh /wrapper.sh
-RUN chmod +x /wrapper.sh
-COPY --from=builder /go/bin/Beacon /beacon
+RUN echo "**** install Python ****" && \
+    apk add python3 && \
+    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
+    \
+    echo "**** install pip ****" && \
+    python3 -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    pip3 install --upgrade pip && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 
-# CMD ["/bin/bash", "/wrapper.sh"]
-CMD /wrapper.sh
+RUN pip3 install mcrpc
+
+COPY connect_to_blockchain.sh connect_to_blockchain.sh
+COPY request_objects.py request_objects.py
+
+RUN chmod a+x connect_to_blockchain.sh
+
+CMD ["/bin/bash"]
+
+# CMD ["/bin/bash", "/root/create_blockchain.sh"]
