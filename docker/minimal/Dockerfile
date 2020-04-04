@@ -1,9 +1,8 @@
 FROM golang:1.9 as builder
 
 # Building Beacon simple app
-WORKDIR /go/src/github.com/Donegaan
 RUN git clone https://github.com/Donegaan/Beacon.git
-WORKDIR /go/src/github.com/Donegaan/Beacon
+WORKDIR Beacon
 RUN go get && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"'
 
 RUN ldd /go/bin/Beacon | grep -q "not a dynamic executable"
