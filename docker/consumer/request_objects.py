@@ -12,8 +12,8 @@ client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 client.subscribe(stream_name)
 
 # Request stream objects
-client.liststreamitems(stream_name)
+client.liststreamkeyitems()
 
 for x in range(150):
-    # client.getstreamitem(stream_name, )
+    print(client.liststreamkeyitems(stream_name, 'key'+str(x)))
     time.sleep(2)

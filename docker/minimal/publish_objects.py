@@ -15,7 +15,9 @@ client.create('stream', stream_name, True)
 
 #  publish objects for duration of emulation
 
-for x in range(300):
+client.subscribe(stream_name)
+
+for x in range(20):
     client.publish(stream_name, 'key'+str(x),
                    {"json": {"name": "Jane Smith", "city": "Paris"}})
-    time.sleep(1)
+    time.sleep(5)
