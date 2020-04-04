@@ -15,14 +15,6 @@ def main(argv):
 
     client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 
-    # Will only create one stream with the same name so can leave it in if multiple producers
-    # There will be errors, fine if it doesn't stop emulation execution
-    client.create('stream', stream_name, True)
-
-    #  publish objects for duration of emulation
-
-    client.subscribe(stream_name)
-
     client.publish(stream_name, argv[0], {"json": {"message": argv[1]}})
 
 

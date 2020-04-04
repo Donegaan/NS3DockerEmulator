@@ -47,11 +47,13 @@ COPY create_blockchain.sh create_blockchain.sh
 COPY start_blockchain.sh start_blockchain.sh
 COPY connect_to_blockchain.sh connect_to_blockchain.sh
 COPY publish_objects.py publish_objects.py
+COPY create_stream.py create_stream.py
 
 RUN chmod a+x create_blockchain.sh start_blockchain.sh connect_to_blockchain.sh
 
 RUN ./create_blockchain.sh
 RUN ./start_blockchain.sh
+RUN python3 create_stream.py
 
 COPY wrapper.sh /wrapper.sh
 RUN chmod +x /wrapper.sh
