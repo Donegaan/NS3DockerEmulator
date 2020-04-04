@@ -17,7 +17,7 @@ def main(argv):
     client.subscribe(stream_name)
 
     # Request stream objects
-    client.liststreamkeyitems(stream_name, argv[1])
+    client.liststreamkeyitems(stream_name, argv[0])
 
 
 if __name__ == "__main__":

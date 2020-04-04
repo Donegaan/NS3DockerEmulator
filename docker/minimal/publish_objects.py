@@ -23,7 +23,7 @@ def main(argv):
 
     client.subscribe(stream_name)
 
-    client.publish(stream_name, argv[1], {"json": {"message": argv[2]}})
+    client.publish(stream_name, argv[0], {"json": {"message": argv[1]}})
 
 
 if __name__ == "__main__":
