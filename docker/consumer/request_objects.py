@@ -1,5 +1,8 @@
+#!/usr/bin/python
+
 import mcrpc
 import time
+import sys
 
 rpcuser = 'multichainrpc'
 rpcpasswd = 'this-is-insecure-change-it-123'
@@ -7,13 +10,15 @@ rpchost = '10.12.0.1'
 rpcport = '8000'
 stream_name = 'stream1'
 
-client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 
-client.subscribe(stream_name)
+def main(argv):
+    client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 
-# Request stream objects
-client.liststreamkeyitems()
+    client.subscribe(stream_name)
 
-for x in range(150):
-    print(client.liststreamkeyitems(stream_name, 'key'+str(x)))
-    time.sleep(2)
+    # Request stream objects
+    client.liststreamkeyitems(stream_name, argv[1])
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

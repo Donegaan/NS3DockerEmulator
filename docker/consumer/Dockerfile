@@ -1,3 +1,13 @@
+FROM golang:1.9 as builder
+
+# Building Beacon simple app
+WORKDIR /go/src/github.com/Donegaan
+RUN git clone https://github.com/Donegaan/Beacon.git
+WORKDIR /go/src/github.com/Donegaan/Beacon
+RUN go get && CGO_ENABLED=0 go install -a -tags netgo -ldflags '-extldflags "-static"'
+
+RUN ldd /go/bin/Beacon | grep -q "not a dynamic executable"
+
 FROM alpine
 #  Consumer Dockerfile
 
@@ -39,6 +49,11 @@ COPY request_objects.py request_objects.py
 
 RUN chmod a+x connect_to_blockchain.sh
 
-CMD ["/bin/bash"]
+COPY wrapper.sh /wrapper.sh
+RUN chmod +x /wrapper.sh
+COPY --from=builder /go/bin/Beacon /beacon
+
+# CMD ["/bin/bash"]
+CMD /wrapper.sh
 
 # CMD ["/bin/bash", "/root/create_blockchain.sh"]
