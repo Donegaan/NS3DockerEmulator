@@ -53,7 +53,6 @@ RUN chmod a+x create_blockchain.sh start_blockchain.sh connect_to_blockchain.sh
 
 RUN ./create_blockchain.sh
 RUN ./start_blockchain.sh
-RUN python3 create_stream.py
 
 COPY wrapper.sh /wrapper.sh
 RUN chmod +x /wrapper.sh
