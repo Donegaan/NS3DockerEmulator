@@ -6,7 +6,7 @@ import sys
 
 rpcuser = 'multichainrpc'
 rpcpasswd = 'this-is-insecure-change-it-123'
-rpchost = '10.12.0.1'
+rpchost = '10.12.0.2'
 rpcport = '8000'
 stream_name = 'stream1'
 
