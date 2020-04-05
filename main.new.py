@@ -203,11 +203,15 @@ def create():
     # r_code = subprocess.call("docker build -t %s docker/mybase/." % baseContainerName0, shell=True)
     # check_return_code(r_code, "Building regular container %s" % baseContainerName0)
 
-    # Don't think we need to rebuild container everytime right now.
-    # r_code = subprocess.call(
-    #     "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
-    # check_return_code(r_code, "Building minimal container %s" %
-    #                   baseContainerNameMin)
+    r_code = subprocess.call(
+        "docker build -t %s docker/minimal/." % baseContainerNameMin, shell=True)
+    check_return_code(r_code, "Building minimal image %s" %
+                      baseContainerNameMin)
+
+    r_code = subprocess.call(
+        "docker build -t %s docker/consumer/." % baseConsumerContainerNameMin, shell=True)
+    check_return_code(r_code, "Building consumer image %s" %
+                      baseConsumerContainerNameMin)
 
     r_code = subprocess.call(
         "cd ns3 && bash update.sh tap-csma-virtual-machine.cc", shell=True)
@@ -424,18 +428,18 @@ def run_emu():
         container_name_list += nameList[x]
         container_name_list += " "
 
-    # acc_status = subprocess.call(
-    #     "docker restart -t 0 %s" % container_name_list, shell=True)
-    # check_return_code_chill(acc_status, "Restarting containers")
+    acc_status = subprocess.call(
+        "docker restart -t 0 %s" % container_name_list, shell=True)
+    check_return_code_chill(acc_status, "Restarting containers")
 
     for x in range(0, numberOfNodes):
         if os.path.exists(pidsDirectory + nameList[x]):
             with open(pidsDirectory + nameList[x], "rt") as in_file:
                 text = in_file.read()
-                # r_code = subprocess.call(
-                #     "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
-                # check_return_code_chill(
-                #     r_code, "Destroying docker bridges %s" % (nameList[x]))
+                r_code = subprocess.call(
+                    "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
+                check_return_code_chill(
+                    r_code, "Destroying docker bridges %s" % (nameList[x]))
 
         cmd = ['docker', 'inspect', '--format',
                "'{{ .State.Pid }}'", nameList[x]]
@@ -512,10 +516,10 @@ def write_conf(target, nodes, timeout, root, port, filename):
 def destroy():
     print("Destroying ...")
 
-    # print("DESTROYING ALL CONTAINERS")
-    # r_code = subprocess.call(
-    #     "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
-    # check_return_code_chill(r_code, "Destroying ALL containers")
+    print("DESTROYING ALL CONTAINERS")
+    r_code = subprocess.call(
+        "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)", shell=True)
+    check_return_code_chill(r_code, "Destroying ALL containers")
 
     for x in range(0, numberOfNodes):
 
@@ -527,14 +531,14 @@ def destroy():
         if os.path.exists(pidsDirectory + nameList[x]):
             with open(pidsDirectory + nameList[x], "rt") as in_file:
                 text = in_file.read()
-        #         r_code = subprocess.call(
-        #             "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
-        #         check_return_code_chill(
-        #             r_code, "Destroying docker bridges %s" % (nameList[x]))
+                r_code = subprocess.call(
+                    "rm -rf /var/run/netns/%s" % (text.strip()), shell=True)
+                check_return_code_chill(
+                    r_code, "Destroying docker bridges %s" % (nameList[x]))
 
-        # r_code = subprocess.call("rm -rf %s" %
-        #                          (pidsDirectory + nameList[x]), shell=True)
-        # check_return_code_chill(r_code, "Removing pids directory")
+        r_code = subprocess.call("rm -rf %s" %
+                                 (pidsDirectory + nameList[x]), shell=True)
+        check_return_code_chill(r_code, "Removing pids directory")
 
     return
 
