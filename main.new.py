@@ -306,7 +306,7 @@ def create():
             shell=True)
 
     # If something went wrong running the docker containers, we panic and exit
-    # check_return_code(acc_status, "Running docker containers")
+    check_return_code(acc_status, "Running docker containers")
 
     time.sleep(1)
 

@@ -15,8 +15,6 @@ def main(argv):
 
     client = c = mcrpc.RpcClient(rpchost, rpcport, rpcuser, rpcpasswd)
 
-    client.create('stream', stream_name, True)
-
     client.subscribe(stream_name)
 
     client.publish(stream_name, argv[0], {"json": {"message": argv[1]}})
